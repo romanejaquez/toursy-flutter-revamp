@@ -15,6 +15,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     ToursyMainService toursyMainService = Provider.of<ToursyMainService>(context, listen: false);
+    
     toursyMainService.fetchAllData(context).then((value) {
       Future.delayed(Duration(seconds: duration!), () {
         Utils.mainAppNav.currentState!.pushReplacementNamed(
@@ -22,13 +23,30 @@ class SplashPage extends StatelessWidget {
       });
     });
 
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: ToursyColors.primaryGreen,
       body: Center(
-        child: Icon(
-          ToursyFontIcons.toursyLogoFull,
-          color: Colors.white,
-          size: 180),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Expanded(
+              child: Icon(
+                ToursyFontIcons.toursyLogoFull,
+                color: Colors.white,
+                size: 180
+              ),
+            ),
+            SizedBox(
+              height: 50,
+              width: 50,
+              child: CircularProgressIndicator(
+                strokeWidth: 5,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
+            SizedBox(height: 100)
+          ]
+        )
       )
     );
   }

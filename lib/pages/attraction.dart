@@ -22,6 +22,24 @@ class AttractionPage extends StatelessWidget {
             tag: selectedAttraction.id!,
             child: Container(
               height: 350,
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(60),
+                    bottomRight: Radius.circular(60)
+                  ),
+                  color: Colors.grey.withOpacity(0.5),
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withOpacity(1)
+                    ],
+                    begin: Alignment.center,
+                    end: Alignment.bottomCenter
+                  )
+                ),
+              ),
               decoration: BoxDecoration(
                 color: Colors.grey.withOpacity(0.2),
                 borderRadius: const BorderRadius.only(
