@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/models/attraction.model.dart';
 import 'package:toursy_flutter_revamp/models/attractioncard.model.dart';
+import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
 import 'package:toursy_flutter_revamp/services/topattractionsservice.dart';
 import 'package:toursy_flutter_revamp/widgets/attractionsanimatedlist.dart';
 import 'package:toursy_flutter_revamp/widgets/datafetchingindicator.dart';
@@ -15,6 +16,7 @@ class TopAttractionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     TopAttractionsService topAttractionsService = Provider.of<TopAttractionsService>(context, listen: false);
+    AttractionSelectionService attractionSelectionService = Provider.of<AttractionSelectionService>(context, listen: false);
 
     return Container(
       color: Colors.white,
@@ -30,8 +32,16 @@ class TopAttractionsPage extends StatelessWidget {
               topAttractionsReturn = const DataFetchingIndicator();
               break;
             case ConnectionState.done:
-              attractionCardModels = Utils.mapAttractionModelToAttractionCards(snapshot.data as List<AttractionModel>);
-              topAttractionsReturn = AttractionsAnimatedList(attractions: attractionCardModels);
+              List<AttractionModel> allTopAttractions = snapshot.data as List<AttractionModel>;
+              attractionCardModels = Utils.mapAttractionModelToAttractionCards(allTopAttractions);
+              topAttractionsReturn = AttractionsAnimatedList(
+                attractions: attractionCardModels,
+                onSelectedCard: (AttractionCardModel c) {
+                  var attraction = allTopAttractions.firstWhere((a) => a.id == c.id);
+                  attractionSelectionService.onSelectAttraction(attraction);
+                  Utils.mainAppNav.currentState!.pushNamed('/attraction');
+                },  
+              );
               break;
             default:
               break;

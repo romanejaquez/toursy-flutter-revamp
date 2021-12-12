@@ -3,7 +3,8 @@ import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
 import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 
 class ToursyAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const ToursyAppBar({Key? key}) : super(key: key);
+  final Color? themeColor;
+  const ToursyAppBar({Key? key, this.themeColor = ToursyColors.primaryGreen}) : super(key: key);
 
   @override
   _ToursyAppBarState createState() => _ToursyAppBarState();
@@ -18,10 +19,10 @@ class _ToursyAppBarState extends State<ToursyAppBar> {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      iconTheme: const IconThemeData(color: ToursyColors.primaryGreen),
+      iconTheme: IconThemeData(color: widget.themeColor),
       centerTitle: true,
-      title: const Icon(ToursyFontIcons.toursyText,
-        color: ToursyColors.primaryGreen, size: 80
+      title: Icon(ToursyFontIcons.toursyText,
+        color: widget.themeColor, size: 80
       ),
     );
   }

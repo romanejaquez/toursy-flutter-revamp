@@ -13,4 +13,9 @@ class ByActivityService {
 
     return byActivityDataList;
   }
+
+  Future<ActivityDataModel> getActivityDataById(String activityId) async {
+    var allActivities = await getAttractionsByActivity();
+    return allActivities.where((ActivityDataModel adm) => adm.id == activityId).first;
+  }
 }

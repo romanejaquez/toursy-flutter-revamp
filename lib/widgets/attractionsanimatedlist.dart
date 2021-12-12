@@ -5,8 +5,9 @@ import 'package:toursy_flutter_revamp/widgets/attractioncard.dart';
 
 class AttractionsAnimatedList extends StatefulWidget {
 
+  Function? onSelectedCard;
   List<AttractionCardModel>? attractions;
-  AttractionsAnimatedList({Key? key, this.attractions}) : super(key: key);
+  AttractionsAnimatedList({Key? key, this.attractions, required this.onSelectedCard}) : super(key: key);
 
   @override
   _AttractionsAnimatedListState createState() => _AttractionsAnimatedListState();
@@ -20,12 +21,10 @@ class _AttractionsAnimatedListState extends State<AttractionsAnimatedList> {
       itemCount: widget.attractions!.length,
       itemBuilder: (context, index) {
         AttractionCardModel attractionCard = widget.attractions![index];
-        // AttractionCardModel attractionCard = AttractionCardModel(
-        //   img: attraction.img!,
-        //   title: attraction.name!,
-        //   subTitle: attraction.province!
-        // );
-        return AttractionCard(cardInfo: attractionCard);
+        return AttractionCard(
+          cardInfo: attractionCard,
+          onTap: () { widget.onSelectedCard!(attractionCard); },  
+        );
       }
     );
   }

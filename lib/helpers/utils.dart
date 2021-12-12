@@ -6,6 +6,7 @@ import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 import 'package:toursy_flutter_revamp/models/activitydata.model.dart';
 import 'package:toursy_flutter_revamp/models/attraction.model.dart';
 import 'package:toursy_flutter_revamp/models/attractioncard.model.dart';
+import 'package:toursy_flutter_revamp/models/attractioncategoryselection.model.dart';
 import 'package:toursy_flutter_revamp/models/bottombaritem.dart';
 import 'package:toursy_flutter_revamp/models/regionaldata.model.dart';
 
@@ -49,6 +50,7 @@ class Utils {
   static List<AttractionCardModel> mapAttractionModelToAttractionCards(List<AttractionModel> attractionModels) {
     return attractionModels.map(
       (AttractionModel a) => AttractionCardModel(
+        id: a.id,
         img: a.img,
         title: a.name,
         subTitle: a.province
@@ -58,6 +60,7 @@ class Utils {
   static List<AttractionCardModel> mapActivityDataModelToAttractionCards(List<ActivityDataModel> activities) {
       return activities.map(
         (ActivityDataModel a) => AttractionCardModel(
+          id: a.id,
           img: a.img,
           title: a.name,
           subTitle: '${a.attractions!.length} attractions'
@@ -67,10 +70,22 @@ class Utils {
   static List<AttractionCardModel> mapRegionalDataModelToAttractionCards(List<RegionalDataModel> regionalDataModelList) {
       return regionalDataModelList.map(
         (RegionalDataModel r) => AttractionCardModel(
+          id: r.id,
           img: r.img,
           title: r.region,
           subTitle: '${r.attractions!.length} attractions'
         )).toList();
+  }
+
+  static String mapAttractionCategoryToString(AttractionCategory cat) {
+    switch(cat) {
+      case AttractionCategory.byActivity:
+        return 'By Activity';
+      case AttractionCategory.byRegion:
+        return 'By Region';
+      default:
+        return '';
+    }
   }
   
 }

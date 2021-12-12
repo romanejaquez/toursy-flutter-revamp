@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/models/activitydata.model.dart';
 import 'package:toursy_flutter_revamp/models/attractioncard.model.dart';
+import 'package:toursy_flutter_revamp/models/attractioncategoryselection.model.dart';
 import 'package:toursy_flutter_revamp/models/regionaldata.model.dart';
+import 'package:toursy_flutter_revamp/services/attractioncategoryselectionservice.dart';
 import 'package:toursy_flutter_revamp/services/regionaldataservice.dart';
 import 'package:toursy_flutter_revamp/widgets/attractionsanimatedlist.dart';
 import 'package:toursy_flutter_revamp/widgets/datafetchingindicator.dart';
@@ -21,6 +23,7 @@ class _ByRegionPageState extends State<ByRegionPage> {
   Widget build(BuildContext context) {
 
     RegionalDataService regionalDataService = Provider.of<RegionalDataService>(context, listen: false);
+    AttractionCategorySelectionService attractionCategorySelectionService = Provider.of<AttractionCategorySelectionService>(context, listen: false);
     
     return Container(
       color: Colors.white,
@@ -37,7 +40,19 @@ class _ByRegionPageState extends State<ByRegionPage> {
               break;
             case ConnectionState.done:
               attractionCardModels = Utils.mapRegionalDataModelToAttractionCards(snapshot.data as List<RegionalDataModel>);
-              regionalDataResult = AttractionsAnimatedList(attractions: attractionCardModels);
+              regionalDataResult = AttractionsAnimatedList(
+                attractions: attractionCardModels,
+                onSelectedCard: (AttractionCardModel card) {
+                  attractionCategorySelectionService.selectedCategory(
+                    AttractionCategorySelection(
+                      selectedCategory: AttractionCategory.byRegion,
+                      selectedLabel: card.title,
+                      selectedId: card.id
+                    )
+                  );
+
+                  Utils.mainAppNav.currentState!.pushNamed('/attractions');
+                });
               break;
             default:
               break;

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toursy_flutter_revamp/helpers/utils.dart';
+import 'package:toursy_flutter_revamp/pages/attraction.dart';
+import 'package:toursy_flutter_revamp/pages/attractions.dart';
 import 'package:toursy_flutter_revamp/pages/main.dart';
 import 'package:toursy_flutter_revamp/pages/splash.dart';
 import 'package:toursy_flutter_revamp/pages/welcome.dart';
+import 'package:toursy_flutter_revamp/services/attractioncategoryselectionservice.dart';
+import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
 import 'package:toursy_flutter_revamp/services/byactivityservice.dart';
 import 'package:toursy_flutter_revamp/services/regionaldataservice.dart';
 import 'package:toursy_flutter_revamp/services/topattractionsservice.dart';
@@ -28,6 +32,12 @@ void main() {
         ),
         Provider(
           create: (_) => ToursyMainService()
+        ),
+        Provider(
+          create: (_) => AttractionCategorySelectionService()
+        ),
+        Provider(
+          create: (_) => AttractionSelectionService()
         )
       ],
       child: const ToursyApp(),
@@ -48,7 +58,9 @@ class ToursyApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashPage(duration: 3, goToPage: '/welcome'),
         '/welcome': (context) => const WelcomePage(),
-        '/main': (context) => const MainPage()
+        '/main': (context) => const MainPage(),
+        '/attractions': (context) => const AttractionsPage(),
+        '/attraction': (context) => const AttractionPage()
       }
     );
   }
