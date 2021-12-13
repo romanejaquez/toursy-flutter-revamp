@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/pages/attraction.dart';
@@ -50,6 +51,12 @@ class ToursyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Raleway'),
       navigatorKey: Utils.mainAppNav,
