@@ -20,7 +20,7 @@ class _MapPageState extends State<MapPage> {
   Set<Marker> _markers = Set<Marker>();
   double attractionPillPosition = -200;
   AttractionModel? currentAttraction;
-  List<RegionalDataModel>? regionalDataList;
+  List<AttractionModel>? attractionList;
   BitmapDescriptor? defaultMarker;
   BitmapDescriptor? selectedMarker;
   
@@ -29,11 +29,9 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     super.initState();
 
-    TopAttractionsService topAttractionsService = Provider.of<TopAttractionsService>(context, listen: false);
-    currentAttraction = topAttractionsService.topAttractions.first;
-
     RegionalDataService regionalDataService = Provider.of<RegionalDataService>(context, listen: false);
-    regionalDataList = regionalDataService.regionalDataList;
+    attractionList = regionalDataService.getAllAttractions();
+    currentAttraction = attractionList!.first;
 
     BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, './assets/imgs/toursy_pin.png').then((value) {
       defaultMarker = value;
@@ -82,53 +80,56 @@ class _MapPageState extends State<MapPage> {
                 alignment: Alignment.bottomCenter,
                 child: Stack(
                 alignment: Alignment.bottomCenter,
-                children: <Widget>[
+                children: [
                   Container(
                     margin: EdgeInsets.all(20),
                     height: 75,
                     decoration: BoxDecoration(
-                      color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       boxShadow: <BoxShadow>[
                         BoxShadow(blurRadius: 20, offset: Offset.zero, color: Colors.grey.withOpacity(0.5))
                       ]
                     ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
-                            child: FadeInImage.assetNetwork(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30)
+                      ),
+                      child: Container(
+                        color: Colors.white,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            FadeInImage.assetNetwork(
                               placeholder: './assets/imgs/toursybg.png',
                               image: currentAttraction!.img!,
+                              width: 100,
+                              fit: BoxFit.cover,
                               fadeInDuration: const Duration(milliseconds: 500),
                             ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                width: 140,
-                                child: Text(currentAttraction!.name!, style: TextStyle(color: Colors.green)),
+                            Expanded(
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(currentAttraction!.name!, style: TextStyle(color: Colors.green)),
+                                    Text(currentAttraction!.province!, style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                  ],
+                                ),
                               ),
-                              Text(currentAttraction!.province!, style: TextStyle(fontSize: 12, color: Colors.grey)),
-                            ],
-                          ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(right: 20),
+                              padding: const EdgeInsets.all(2.5),
+                              width: 40,
+                              height: 40,
+                              child: Image.asset('./assets/imgs/main_logo.png', width: 40, height: 40),
+                            )
+                          ],
                         ),
-                        Container(
-                          margin: EdgeInsets.only(right: 10),
-                          padding: EdgeInsets.all(2.5),
-                          width: 40,
-                          height: 40,
-                          child: Image.asset('./assets/imgs/main_logo.png', width: 40, height: 40),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                 ],
@@ -142,13 +143,8 @@ class _MapPageState extends State<MapPage> {
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
-    List<AttractionModel> attractions = [];
 
-    for(var region in regionalDataList!) {
-      region.attractions!.forEach((a) => attractions.add(a));
-    }
-
-    for(var attraction in attractions) {
+    for(var attraction in attractionList!) {
       setState(() {
         _markers.add(
         Marker(

@@ -5,6 +5,7 @@ import 'package:toursy_flutter_revamp/services/toursyproxy.service.dart';
 class RegionalDataService {
 
   List<RegionalDataModel> regionalDataList = [];
+  List<AttractionModel> allAttractions = [];
 
   Future<List<RegionalDataModel>> getRegionalData() async {
 
@@ -37,5 +38,17 @@ class RegionalDataService {
     }
 
     return attractionsFromRegion;
+  }
+
+  List<AttractionModel> getAllAttractions() {
+    if (allAttractions.isEmpty) {
+      for (var region in regionalDataList) {
+        for (var element in region.attractions!) {
+          allAttractions.add(element);
+        }
+      }
+    }
+
+    return allAttractions;
   }
 }

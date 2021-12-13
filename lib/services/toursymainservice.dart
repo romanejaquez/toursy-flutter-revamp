@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toursy_flutter_revamp/models/attraction.model.dart';
 import 'package:toursy_flutter_revamp/services/byactivityservice.dart';
 import 'package:toursy_flutter_revamp/services/regionaldataservice.dart';
 import 'package:toursy_flutter_revamp/services/topattractionsservice.dart';
@@ -17,5 +18,13 @@ class ToursyMainService {
       regionalDataService.getRegionalData(),
       topAttractionsService.getTopAttractions()
     ]);
+  }
+
+  Future<List<AttractionModel>> getAllAttractions(context ) async {
+    List<AttractionModel> allAttractions = [];
+    RegionalDataService regionalDataService = Provider.of<RegionalDataService>(context, listen: false);
+    allAttractions = await regionalDataService.getAllAttractions();
+
+    return allAttractions;
   }
 }
