@@ -17,7 +17,8 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   AnimationController? textController;
-  AnimationController? circleController;
+  AnimationController? circle1Controller;
+  AnimationController? circle2Controller;
   AnimationController? logoController;
 
   @override
@@ -29,10 +30,15 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       vsync: this
     )..repeat(reverse: true);
 
-    circleController = AnimationController(
+    circle1Controller = AnimationController(
       duration: const Duration(milliseconds: 3000),
       vsync: this
     )..forward();
+
+    circle2Controller = AnimationController(
+      duration: const Duration(milliseconds: 3000),
+      vsync: this
+    );
 
     logoController = AnimationController(
       duration: const Duration(milliseconds: 1500),
@@ -44,7 +50,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   void dispose() {
     textController!.dispose();
     logoController!.dispose();
-    circleController!.dispose();
+    circle1Controller!.dispose();
+    circle2Controller!.dispose();
     super.dispose();
   }
   
@@ -60,6 +67,10 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       });
     });
 
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      circle2Controller!.forward();
+    });
+
     return Scaffold(
       backgroundColor: ToursyColors.primaryGreen,
       body: Stack(
@@ -71,12 +82,29 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
             child: ScaleTransition(
               alignment: Alignment.bottomCenter,
               scale: Tween<double>(begin: 1.0, end: 6.0)
-              .animate(CurvedAnimation(parent: circleController!, curve: Curves.easeInOut)),
+              .animate(CurvedAnimation(parent: circle1Controller!, curve: Curves.easeInOut)),
               child: ClipOval(
                 child: Container(
                   width: 200,
                   height: 200,
                   color: ToursyColors.secondaryGreen.withOpacity(0.5)
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: -200,
+            left: 0,
+            right: 0,
+            child: ScaleTransition(
+              alignment: Alignment.bottomCenter,
+              scale: Tween<double>(begin: 1.0, end: 6.0)
+              .animate(CurvedAnimation(parent: circle2Controller!, curve: Curves.easeInOut)),
+              child: ClipOval(
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  color: ToursyColors.secondaryGreen
                 ),
               ),
             ),

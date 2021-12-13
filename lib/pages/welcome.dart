@@ -100,7 +100,7 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
                     ),
                     const SizedBox(height: 20),
                     SlideTransition(
-                      position: Tween<Offset>(begin: const Offset(0.0, -0.25), end: Offset.zero)
+                      position: Tween<Offset>(begin: const Offset(0.0, 0.35), end: Offset.zero)
                       .animate(CurvedAnimation(parent: text1Controller!, curve: Curves.easeInOut)),
                       child: FadeTransition(opacity: Tween<double>(begin: 0.0, end: 1.0)
                         .animate(CurvedAnimation(parent: text1Controller!, curve: Curves.easeInOut)),
@@ -115,7 +115,7 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
                     ),
                     const SizedBox(height: 20),
                     SlideTransition(
-                      position: Tween<Offset>(begin: const Offset(0.0, -0.25), end: Offset.zero)
+                      position: Tween<Offset>(begin: const Offset(0.0, 0.35), end: Offset.zero)
                       .animate(CurvedAnimation(parent: text2Controller!, curve: Curves.easeInOut)),
                       child: FadeTransition(opacity: Tween<double>(begin: 0.0, end: 1.0)
                         .animate(CurvedAnimation(parent: text2Controller!, curve: Curves.easeInOut)),
