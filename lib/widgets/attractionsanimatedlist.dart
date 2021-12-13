@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:toursy_flutter_revamp/models/attraction.model.dart';
+import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/models/attractioncard.model.dart';
+import 'package:toursy_flutter_revamp/widgets/animatedlistrow.dart';
 import 'package:toursy_flutter_revamp/widgets/attractioncard.dart';
 
 class AttractionsAnimatedList extends StatefulWidget {
@@ -14,16 +15,30 @@ class AttractionsAnimatedList extends StatefulWidget {
 }
 
 class _AttractionsAnimatedListState extends State<AttractionsAnimatedList> {
+  List<AttractionCardModel> actualList = [];
+  final GlobalKey<AnimatedListState> _key = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+
+    Utils.insertListItemsInFuture(widget.attractions!, actualList, _key);
+  }
+  
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return AnimatedList(
+      key: _key,
       padding: const EdgeInsets.only(left: 20, right: 20),
-      itemCount: widget.attractions!.length,
-      itemBuilder: (context, index) {
+      initialItemCount: actualList.length,
+      itemBuilder: (context, index, animation) {
         AttractionCardModel attractionCard = widget.attractions![index];
-        return AttractionCard(
-          cardInfo: attractionCard,
-          onTap: () { widget.onSelectedCard!(attractionCard); },  
+        return AnimatedListRow(
+          animation: animation,
+          child: AttractionCard(
+            cardInfo: attractionCard,
+            onTap: () { widget.onSelectedCard!(attractionCard); },  
+          ),
         );
       }
     );

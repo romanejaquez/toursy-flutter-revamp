@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 import 'package:toursy_flutter_revamp/models/attractioncard.model.dart';
 
-class AttractionCard extends StatelessWidget {
+class AttractionCard extends StatefulWidget {
   
   final Function? onTap;
   final AttractionCardModel? cardInfo;
   const AttractionCard({Key? key, this.cardInfo, required this.onTap}) : super(key: key);
 
   @override
+  State<AttractionCard> createState() => _AttractionCardState();
+}
+
+class _AttractionCardState extends State<AttractionCard> with SingleTickerProviderStateMixin {
+  
+  AnimationController? cardTextController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    cardTextController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this
+    )..forward();
+  }
+  
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () { onTap!(); },
+      onTap: () { widget.onTap!(); },
       child: Container(
         margin: const EdgeInsets.only(top: 15, bottom: 15),
         child: Stack(
@@ -21,59 +38,85 @@ class AttractionCard extends StatelessWidget {
                 topLeft: Radius.circular(60),
                 bottomRight: Radius.circular(60)
               ),
-              child: Hero(
-                tag: cardInfo!.id!,
-                child: Container(
-                  height: 250,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(60),
-                      bottomRight: Radius.circular(60)
-                    ),
-                    image: DecorationImage(
-                      image: NetworkImage(cardInfo!.img!),
-                      fit: BoxFit.cover
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(60),
+                          bottomRight: Radius.circular(60)
+                        ),
+                        image: DecorationImage(
+                          image: AssetImage('./assets/imgs/toursybg.png'),
+                          fit: BoxFit.cover
+                        )
+                      )
                     )
                   ),
-                  child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(60),
-                        bottomRight: Radius.circular(60)
+                  Hero(
+                    tag: widget.cardInfo!.id!,
+                    child: Container(
+                      height: 250,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(60),
+                          bottomRight: Radius.circular(60)
+                        ),
+                        image: DecorationImage(
+                          image: NetworkImage(widget.cardInfo!.img!),
+                          fit: BoxFit.cover
+                        )
                       ),
-                      color: Colors.grey.withOpacity(0.5),
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withOpacity(1)
-                        ],
-                        begin: Alignment.center,
-                        end: Alignment.bottomCenter
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(60),
+                            bottomRight: Radius.circular(60)
+                          ),
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withOpacity(0.5)
+                            ],
+                            begin: Alignment.center,
+                            end: Alignment.bottomCenter
+                          )
+                        ),
                       )
                     ),
                   )
-                ),
+                ]
               ),
             ),
             Positioned.fill(
-              child: Padding(
-                padding: const EdgeInsets.all(25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(cardInfo!.title!,
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)
+              child: SlideTransition(
+                position: Tween<Offset>(begin: const Offset(-0.125, 0.0), end: Offset.zero)
+                .animate(CurvedAnimation(parent: cardTextController!, curve: Curves.easeInOut)),
+                child: FadeTransition(
+                  opacity: Tween<double>(begin: 0.0, end: 1.0)
+                  .animate(CurvedAnimation(parent: cardTextController!, curve: Curves.easeInOut)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(25),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(widget.cardInfo!.title!,
+                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)
+                        ),
+                        Visibility(
+                          visible: widget.cardInfo!.subTitle!.isNotEmpty,
+                          child: Text(widget.cardInfo!.subTitle!,
+                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.normal, fontSize: 15)
+                          ),
+                        )
+                      ],
                     ),
-                    Visibility(
-                      visible: cardInfo!.subTitle!.isNotEmpty,
-                      child: Text(cardInfo!.subTitle!,
-                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.normal, fontSize: 15)
-                      ),
-                    )
-                  ],
+                  ),
                 ),
               ),
             )
@@ -81,5 +124,11 @@ class AttractionCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    cardTextController!.dispose();
+    super.dispose();
   }
 }

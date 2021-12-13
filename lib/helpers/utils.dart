@@ -88,4 +88,15 @@ class Utils {
     }
   }
   
+  static void insertListItemsInFuture(List<Object> sourceList, List<Object> destinationList, GlobalKey<AnimatedListState> key) {
+    var future = Future(() {});
+    for (var i = 0; i < sourceList.length; i++) {
+      future = future.then((_) {
+        return Future.delayed(const Duration(milliseconds: 125), () {
+          destinationList.add(sourceList[i]);
+          key.currentState!.insertItem(i);
+        });
+      });
+    }
+  }
 }

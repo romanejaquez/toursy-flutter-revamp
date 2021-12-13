@@ -56,7 +56,7 @@ class ToursyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => SplashPage(duration: 3, goToPage: '/welcome'),
+        '/': (context) => SplashPage(duration: 2, goToPage: '/welcome'),
         '/welcome': (context) => const WelcomePage(),
         '/main': (context) => const MainPage(),
         '/attractions': (context) => const AttractionsPage(),
