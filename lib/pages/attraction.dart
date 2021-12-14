@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
+import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/models/attraction.model.dart';
 import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyappbar.dart';
+import 'package:toursy_flutter_revamp/widgets/toursymaplocatorbutton.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class AttractionPage extends StatefulWidget {
@@ -17,8 +19,8 @@ class _AttractionPageState extends State<AttractionPage> with TickerProviderStat
   
   AnimationController? textContentController;
   AnimationController? videoContentController;
-
   YoutubePlayerController? _controller;
+  AnimationController? toursyLocatorAnim;
 
   @override
   void initState() {
@@ -33,13 +35,18 @@ class _AttractionPageState extends State<AttractionPage> with TickerProviderStat
       vsync: this,
       duration: const Duration(milliseconds: 850)
     )..forward();
+
+    toursyLocatorAnim = AnimationController(
+      duration: const Duration(milliseconds: 750),
+      vsync: this
+    )..forward();
   }
 
   @override 
   void dispose() {
+    _controller!.dispose();
     textContentController!.dispose();
     videoContentController!.dispose();
-    _controller!.dispose();
     super.dispose();
   }
   
@@ -112,22 +119,44 @@ class _AttractionPageState extends State<AttractionPage> with TickerProviderStat
                       child: FadeTransition(
                         opacity: Tween<double>(begin: 0, end: 1)
                         .animate(CurvedAnimation(parent: textContentController!, curve: Curves.easeInOut)),
-                        child: Padding(
-                            padding: const EdgeInsets.all(40),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(selectedAttraction.name!,
-                                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 35)
-                                ),
-                                Text(selectedAttraction.province!,
-                                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.normal, fontSize: 20)
-                                ),
-                              ],
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.75,
+                          child: Padding(
+                              padding: const EdgeInsets.only(left: 40, bottom: 40),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(selectedAttraction.name!,
+                                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 35)
+                                  ),
+                                  Text(selectedAttraction.province!,
+                                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.normal, fontSize: 20)
+                                  ),
+                                ],
+                              ),
                             ),
-                          )
+                        )
                         ),
+                    ),
+                    FadeTransition(
+                      opacity: Tween<double>(begin: 0.0, end: 1.0)
+                      .animate(CurvedAnimation(parent: toursyLocatorAnim!, curve: Curves.easeInOut)),
+                      child: SlideTransition(
+                        position: Tween<Offset>(begin: const Offset(0.125, 0.0), end: Offset.zero)
+                        .animate(CurvedAnimation(parent: toursyLocatorAnim!, curve: Curves.elasticInOut)),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 30, bottom: 30),
+                            child: ToursyMapLocatorButton(
+                              onTap: () {
+                                Utils.mainAppNav.currentState!.pushNamed('/map');
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
                     )
                   ],
                 ),

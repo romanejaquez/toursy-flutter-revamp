@@ -21,28 +21,32 @@ class Utils {
         icon: ToursyFontIcons.toursyTopRated,
         isSelected: true,
         route: '/',
-        showIfLoggedIn: false
+        showIfLoggedIn: false,
+        size: 40
       ),
       BottomBarItem(
         id: 'byregion',
         icon: ToursyFontIcons.toursyMap,
         isSelected: false,
         route: '/byregion',
-        showIfLoggedIn: false
+        showIfLoggedIn: false,
+        size: 40
       ),
       BottomBarItem(
         id: 'byactivity',
         icon: ToursyFontIcons.toursyWalk,
         isSelected: false,
         route: '/byactivity',
-        showIfLoggedIn: false
+        showIfLoggedIn: false,
+        size: 40
       ),
       BottomBarItem(
-        id: 'map',
-        icon: ToursyFontIcons.toursyPaperMap,
+        id: 'favorites',
+        icon: Icons.favorite,
         isSelected: false,
-        route: '/map',
-        showIfLoggedIn: true
+        route: '/favorites',
+        showIfLoggedIn: true,
+        size: 30
       )
     ];
   }

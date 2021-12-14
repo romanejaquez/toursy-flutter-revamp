@@ -7,6 +7,7 @@ class BottomBarItem {
   Color? color;
   String? route;
   bool? showIfLoggedIn;
+  double? size;
 
-  BottomBarItem({ this.id, this.icon, this.isSelected, this.color, this.route, this.showIfLoggedIn });
+  BottomBarItem({ this.id, this.icon, this.isSelected, this.color, this.route, this.showIfLoggedIn, this.size });
 }

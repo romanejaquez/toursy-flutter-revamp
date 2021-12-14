@@ -17,6 +17,7 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
   AnimationController? text1Controller;
   AnimationController? text2Controller;
   AnimationController? mapController;
+  AnimationController? glowingController;
 
   List<AnimationController>? controllers = [];
 
@@ -50,6 +51,10 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
       vsync: this
     );
 
+    glowingController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this)..repeat(reverse: false);
+
     controllers!.add(mapController!);
   }
 
@@ -59,6 +64,7 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
     text1Controller!.dispose();
     text2Controller!.dispose();
     mapController!.dispose();
+    glowingController!.dispose();
 
     super.dispose();
   }
@@ -88,14 +94,40 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
                     FadeTransition(
                       opacity: Tween<double>(begin: 0.0, end: 1.0)
                       .animate(CurvedAnimation(parent: logoController!, curve: Curves.easeInOut)),
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        child: const Icon(ToursyFontIcons.toursyLogo, color: Colors.white, size: 80),
-                        decoration: BoxDecoration(
-                          color: ToursyColors.primaryGreen,
-                          borderRadius: BorderRadius.circular(100)
-                        ),
+                      child: Stack(
+                        children: [
+                          FadeTransition(
+                            opacity: Tween<double>(begin: 1.0, end: 0.0)
+                            .animate(CurvedAnimation(parent: glowingController!, curve: Curves.easeInOut)),
+                            child: ScaleTransition(
+                              scale: Tween<double>(begin: 1.0, end: 2.0)
+                                .animate(CurvedAnimation(parent: glowingController!, curve: Curves.easeInOut)),
+                              child: ClipOval(
+                                child: Container(
+                                  color: ToursyColors.primaryGreen.withOpacity(0.5),
+                                  width: 100,
+                                  height: 100,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 100,
+                            height: 100,
+                            child: const Icon(ToursyFontIcons.toursyLogo, color: Colors.white, size: 80),
+                            decoration: BoxDecoration(
+                              color: ToursyColors.primaryGreen,
+                              borderRadius: BorderRadius.circular(100),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: ToursyColors.primaryGreen,
+                                  blurRadius: 10,
+                                  offset: Offset.zero
+                                )
+                              ]
+                            ),
+                          )
+                        ]
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -104,16 +136,29 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
                       .animate(CurvedAnimation(parent: text1Controller!, curve: Curves.easeInOut)),
                       child: FadeTransition(opacity: Tween<double>(begin: 0.0, end: 1.0)
                         .animate(CurvedAnimation(parent: text1Controller!, curve: Curves.easeInOut)),
-                        child: const Text('Welcome to \n Toursy!',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: ToursyColors.primaryGreen,
-                            fontSize: 30
-                          )
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: const [
+                            Text('Welcome to',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: ToursyColors.primaryGreen,
+                                fontSize: 30
+                              )
+                            ),
+                            Text('Toursy',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: ToursyColors.primaryGreen,
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold
+                              )
+                            )
+                          ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 30),
                     SlideTransition(
                       position: Tween<Offset>(begin: const Offset(0.0, 0.35), end: Offset.zero)
                       .animate(CurvedAnimation(parent: text2Controller!, curve: Curves.easeInOut)),

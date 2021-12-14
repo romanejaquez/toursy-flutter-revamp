@@ -28,7 +28,7 @@ class ToursyBottomBarItem extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 20),
                   child: Icon(
                     bottomBarItem!.icon,
-                    size: 45,
+                    size: bottomBarItem!.size,
                     color: Colors.grey.withOpacity(0.8))
                 ),
               ),
@@ -42,7 +42,7 @@ class ToursyBottomBarItem extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 20),
                 child: Icon(
                   bottomBarItem!.icon,
-                  size: 45,
+                  size: bottomBarItem!.size,
                   color: ToursyColors.primaryGreen)
               ),
             ),
