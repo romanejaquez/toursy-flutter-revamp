@@ -56,7 +56,7 @@ class MainPage extends StatelessWidget {
                       )
                     );
                   },
-                  transitionDuration: Duration(milliseconds: settings.name == '/map' ? 500 : 500),
+                  transitionDuration: const Duration(milliseconds: 500),
                   reverseTransitionDuration: const Duration(milliseconds: 500),
                 );
               },
