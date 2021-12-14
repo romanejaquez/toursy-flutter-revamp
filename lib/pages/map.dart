@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/models/attraction.model.dart';
 import 'package:toursy_flutter_revamp/models/regionaldata.model.dart';
+import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
 import 'package:toursy_flutter_revamp/services/regionaldataservice.dart';
 import 'package:toursy_flutter_revamp/services/topattractionsservice.dart';
 
@@ -23,7 +25,7 @@ class _MapPageState extends State<MapPage> {
   List<AttractionModel>? attractionList;
   BitmapDescriptor? defaultMarker;
   BitmapDescriptor? selectedMarker;
-  
+  AttractionModel? defaultAttraction;
 
   @override
   void initState() {
@@ -31,7 +33,15 @@ class _MapPageState extends State<MapPage> {
 
     RegionalDataService regionalDataService = Provider.of<RegionalDataService>(context, listen: false);
     attractionList = regionalDataService.getAllAttractions();
-    currentAttraction = attractionList!.first;
+
+    defaultAttraction = attractionList!.first;
+    currentAttraction = AttractionModel(
+      img: defaultAttraction!.img!,
+      id: '',
+      name: defaultAttraction!.name!,
+      description: defaultAttraction!.description!,
+      province: defaultAttraction!.province!,
+    );
 
     BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, './assets/imgs/toursy_pin.png').then((value) {
       defaultMarker = value;
@@ -40,9 +50,33 @@ class _MapPageState extends State<MapPage> {
       selectedMarker = value;
     });
   }
+
+  void generateMarkers() {
+    for(var attraction in attractionList!) {
+      setState(() {
+        _markers.add(
+        Marker(
+          markerId: MarkerId(attraction.id!),
+          position: LatLng(attraction.location!.lat!, attraction.location!.lng!),
+          onTap: () {
+            setState(() {
+              currentAttraction = attraction;
+              attractionPillPosition = 0;
+              _markers.clear();
+
+              generateMarkers();
+            });
+          },
+          icon: currentAttraction != null && currentAttraction!.id == attraction.id ? selectedMarker! : defaultMarker!
+          )
+        );
+      });
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
+    AttractionSelectionService attractionSelectionService = Provider.of<AttractionSelectionService>(context, listen: false);
 
     return Stack(
       children: <Widget>[
@@ -59,9 +93,14 @@ class _MapPageState extends State<MapPage> {
             onTap: (LatLng location) {
               setState(() {
                 attractionPillPosition = -200;
-                // _markers.forEach((m) {
-                //   //m.icon = await BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, 'assets/imgs/toursy_pin.png');
-                // });
+                currentAttraction = AttractionModel(
+                  img: currentAttraction!.img!,
+                  id: '',
+                  name: currentAttraction!.name!,
+                  description: currentAttraction!.description!,
+                  province: currentAttraction!.province!
+                );
+                generateMarkers();
               });
             }),
         AnimatedPositioned(
@@ -71,10 +110,8 @@ class _MapPageState extends State<MapPage> {
             duration: const Duration(milliseconds: 200),
             child: GestureDetector(
               onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => AttractionDetails(currentAttraction: currentAttraction))
-                  // );
+                attractionSelectionService.onSelectAttraction(currentAttraction!);
+                Utils.mainAppNav.currentState!.pushNamed('/attraction');
               },
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -82,11 +119,11 @@ class _MapPageState extends State<MapPage> {
                 alignment: Alignment.bottomCenter,
                 children: [
                   Container(
-                    margin: EdgeInsets.all(20),
+                    margin: const EdgeInsets.all(20),
                     height: 75,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: <BoxShadow>[
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
                         BoxShadow(blurRadius: 20, offset: Offset.zero, color: Colors.grey.withOpacity(0.5))
                       ]
                     ),
@@ -100,12 +137,18 @@ class _MapPageState extends State<MapPage> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            FadeInImage.assetNetwork(
-                              placeholder: './assets/imgs/toursybg.png',
-                              image: currentAttraction!.img!,
-                              width: 100,
-                              fit: BoxFit.cover,
-                              fadeInDuration: const Duration(milliseconds: 500),
+                            Hero(
+                              tag: currentAttraction!.id!,
+                              child: Container(
+                                width: 100,
+                                child: Image.network(currentAttraction!.img!, width: 100, fit: BoxFit.cover),
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage('./assets/imgs/toursybg.png'),
+                                    fit: BoxFit.cover
+                                  )
+                                ),
+                              ),
                             ),
                             Expanded(
                               child: Container(
@@ -113,7 +156,7 @@ class _MapPageState extends State<MapPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
+                                  children: [
                                     Text(currentAttraction!.name!, style: TextStyle(color: Colors.green)),
                                     Text(currentAttraction!.province!, style: TextStyle(fontSize: 12, color: Colors.grey)),
                                   ],
@@ -144,31 +187,7 @@ class _MapPageState extends State<MapPage> {
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
 
-    for(var attraction in attractionList!) {
-      setState(() {
-        _markers.add(
-        Marker(
-          markerId: MarkerId(attraction.id!),
-          position: LatLng(attraction.location!.lat!, attraction.location!.lng!),
-          onTap: () {
-            setState(() {
-              currentAttraction = attraction;
-              attractionPillPosition = 0;
-              
-              _markers.forEach((m) {
-                //m..
-                // m.icon = 
-                // m.markerId.value == currentAttraction!.id ? 
-                // await BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, 'assets/toursy_pin_selected.png') : 
-                // await BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, 'assets/toursy_pin.png');
-              });
-            });
-          },
-          icon: defaultMarker!
-          )
-        );
-      });
-    }
+    generateMarkers();
   }
 
   void _onCameraMove(CameraPosition position) {

@@ -27,7 +27,7 @@ class MainPage extends StatelessWidget {
 
                 switch(settings.name) {
                   case '/':
-                    page = TopAttractionsPage();
+                    page = const TopAttractionsPage();
                     break;
                   case '/byregion':
                     page = ByRegionPage();
@@ -39,7 +39,7 @@ class MainPage extends StatelessWidget {
                     page = MapPage();
                     break;
                   default: 
-                    page = TopAttractionsPage();
+                    page = const TopAttractionsPage();
                     break;
                 }
 
@@ -56,7 +56,7 @@ class MainPage extends StatelessWidget {
                       )
                     );
                   },
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: Duration(milliseconds: settings.name == '/map' ? 500 : 500),
                   reverseTransitionDuration: const Duration(milliseconds: 500),
                 );
               },
