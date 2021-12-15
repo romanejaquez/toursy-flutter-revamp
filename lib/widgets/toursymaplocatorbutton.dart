@@ -4,7 +4,8 @@ import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 
 class ToursyMapLocatorButton extends StatefulWidget {
   final Function? onTap;
-  const ToursyMapLocatorButton({Key? key, this.onTap }) : super(key: key);
+  final IconData? icon;
+  const ToursyMapLocatorButton({Key? key, this.onTap, this.icon = ToursyFontIcons.toursyPaperMap }) : super(key: key);
 
   @override
   State<ToursyMapLocatorButton> createState() => _ToursyMapLocatorButtonState();
@@ -70,12 +71,12 @@ class _ToursyMapLocatorButtonState extends State<ToursyMapLocatorButton> with Si
                   width: 80,
                   height: 80,
                 ),
-                const Positioned(
+                Positioned(
                   top: 12,
                   left: 0,
                   right: 0,
                   child: Center(
-                    child: Icon(ToursyFontIcons.toursyPaperMap, size: 50, color: Colors.white),
+                    child: Icon(widget.icon!, size: 50, color: Colors.white),
                   ),
                 )
               ]

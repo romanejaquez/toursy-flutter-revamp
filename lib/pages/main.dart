@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
 import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 import 'package:toursy_flutter_revamp/helpers/utils.dart';
@@ -6,6 +7,7 @@ import 'package:toursy_flutter_revamp/pages/byactivity.dart';
 import 'package:toursy_flutter_revamp/pages/byregion.dart';
 import 'package:toursy_flutter_revamp/pages/favorites.dart';
 import 'package:toursy_flutter_revamp/pages/topattractions.dart';
+import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyappbar.dart';
 import 'package:toursy_flutter_revamp/widgets/toursybottombar.dart';
 import 'package:toursy_flutter_revamp/widgets/toursymaplocatorbutton.dart';
@@ -38,6 +40,9 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
   
   @override
   Widget build(BuildContext context) {
+
+    AttractionSelectionService attractionSelectionService = Provider.of<AttractionSelectionService>(context, listen: false);
+    
     return Stack(
       children: [
         Scaffold(
@@ -105,6 +110,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
               margin: const EdgeInsets.only(bottom: 150, right: 20),
               child: ToursyMapLocatorButton(
                 onTap: () {
+                  attractionSelectionService.resetViewOnMap();
                   Utils.mainAppNav.currentState!.pushNamed('/map');
                 },
               ),

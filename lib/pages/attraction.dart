@@ -151,6 +151,7 @@ class _AttractionPageState extends State<AttractionPage> with TickerProviderStat
                             margin: const EdgeInsets.only(right: 30, bottom: 30),
                             child: ToursyMapLocatorButton(
                               onTap: () {
+                                attractionSelectionService.onViewAttractionOnMap(selectedAttraction);
                                 Utils.mainAppNav.currentState!.pushNamed('/map');
                               },
                             ),

@@ -5,10 +5,10 @@ import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
 
 class ToursyButton extends StatefulWidget {
 
-  String? label;
-  Function? onTap;
+  final String? label;
+  final Function? onTap;
 
-  ToursyButton({
+  const ToursyButton({
     Key? key,
     this.label,
     this.onTap
