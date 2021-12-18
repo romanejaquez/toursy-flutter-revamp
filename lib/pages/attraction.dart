@@ -148,12 +148,14 @@ class _AttractionPageState extends State<AttractionPage> with TickerProviderStat
                         child: Align(
                           alignment: Alignment.bottomRight,
                           child: Container(
-                            margin: const EdgeInsets.only(right: 30, bottom: 30),
-                            child: ToursyMapLocatorButton(
-                              onTap: () {
-                                attractionSelectionService.onViewAttractionOnMap(selectedAttraction);
-                                Utils.mainAppNav.currentState!.pushNamed('/map');
-                              },
+                            margin: const EdgeInsets.only(right: 15, bottom: 15),
+                            child: Transform.scale(scale: 0.8,
+                              child: ToursyMapLocatorButton(
+                                onTap: () {
+                                  attractionSelectionService.onViewAttractionOnMap(selectedAttraction);
+                                  Utils.mainAppNav.currentState!.pushNamed('/map');
+                                },
+                              ),
                             ),
                           ),
                         ),
