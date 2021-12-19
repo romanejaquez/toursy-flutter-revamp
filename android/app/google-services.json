@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "369199371889",
+    "project_id": "toursy-app",
+    "storage_bucket": "toursy-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369199371889:android:4c164de7e0561b9b112dd0",
+        "android_client_info": {
+          "package_name": "com.drcoderz.toursy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "369199371889-4pbbcbvr4n5mprad15d6t6t2k83q552v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwryd39GV9Fkqq8_pITqLOcllIqV89GX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369199371889-4pbbcbvr4n5mprad15d6t6t2k83q552v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "369199371889-0vpac45n9vgrkglk6qet71bcrinmel17.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.drcoderz.toursy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

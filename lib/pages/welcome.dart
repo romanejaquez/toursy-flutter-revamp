@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
 import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 import 'package:toursy_flutter_revamp/helpers/utils.dart';
+import 'package:toursy_flutter_revamp/services/login.service.dart';
 import 'package:toursy_flutter_revamp/widgets/toursybtn.dart';
+import 'package:toursy_flutter_revamp/widgets/toursyplainbutton.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -184,10 +187,22 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
                   ],
                 ),
               ),
+              ToursyPlainButton(
+                onTap: () async {
+                  LoginService loginService = Provider.of<LoginService>(context, listen: false);
+                  var isLoggedIn = await loginService.signInWithGoogle();
+                  if (isLoggedIn) {
+                    Utils.mainAppNav.currentState!.pushNamed('/main');
+                  }
+                },
+                label: 'Sign In With Google'
+              ),
+              const SizedBox(height: 20),
+
               ToursyButton(
                 label: 'Go To Main Page',
                 onTap: () {
-                  Utils.mainAppNav.currentState!.pushNamed('/main');
+                  Utils.mainAppNav.currentState!.pushReplacementNamed('/main');
                 },
               )
             ],

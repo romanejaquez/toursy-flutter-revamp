@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
-import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/pages/byactivity.dart';
 import 'package:toursy_flutter_revamp/pages/byregion.dart';
@@ -46,6 +44,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
     return Stack(
       children: [
         Scaffold(
+          drawer: Drawer(),
           appBar: const ToursyAppBar(),
           backgroundColor: Colors.white,
           body: Column(

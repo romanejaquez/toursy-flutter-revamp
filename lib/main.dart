@@ -11,12 +11,19 @@ import 'package:toursy_flutter_revamp/pages/welcome.dart';
 import 'package:toursy_flutter_revamp/services/attractioncategoryselectionservice.dart';
 import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
 import 'package:toursy_flutter_revamp/services/byactivityservice.dart';
+import 'package:toursy_flutter_revamp/services/login.service.dart';
 import 'package:toursy_flutter_revamp/services/regionaldataservice.dart';
 import 'package:toursy_flutter_revamp/services/topattractionsservice.dart';
 import 'package:toursy_flutter_revamp/services/toursybottombarselection.dart';
 import 'package:toursy_flutter_revamp/services/toursymainservice.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     MultiProvider(
       providers: [
@@ -40,6 +47,9 @@ void main() {
         ),
         Provider(
           create: (_) => AttractionSelectionService()
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LoginService()
         )
       ],
       child: const ToursyApp(),

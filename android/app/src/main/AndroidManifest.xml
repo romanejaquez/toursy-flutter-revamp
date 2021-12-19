@@ -1,9 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.toursy_flutter_revamp">
    <application
-        android:label="toursy_flutter_revamp"
+        android:label="Toursy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDBZUFT6BR8N-E3bNOITwD1Oq0LEDViVhY"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
