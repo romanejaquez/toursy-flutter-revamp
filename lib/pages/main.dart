@@ -6,6 +6,8 @@ import 'package:toursy_flutter_revamp/pages/byregion.dart';
 import 'package:toursy_flutter_revamp/pages/favorites.dart';
 import 'package:toursy_flutter_revamp/pages/topattractions.dart';
 import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
+import 'package:toursy_flutter_revamp/services/toursybottombarselection.dart';
+import 'package:toursy_flutter_revamp/widgets/sidemenu.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyappbar.dart';
 import 'package:toursy_flutter_revamp/widgets/toursybottombar.dart';
 import 'package:toursy_flutter_revamp/widgets/toursymaplocatorbutton.dart';
@@ -27,7 +29,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
 
     toursyLocatorAnim = AnimationController(
       duration: const Duration(seconds: 2),
-      vsync: this)..forward();
+      vsync: this);
   }
 
   @override 
@@ -40,11 +42,35 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
 
     AttractionSelectionService attractionSelectionService = Provider.of<AttractionSelectionService>(context, listen: false);
-    
+    ToursyBottomBarSelection toursyBottomBarSelection = Provider.of<ToursyBottomBarSelection>(context, listen: false);
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      toursyLocatorAnim!.forward();
+    });
+
     return Stack(
       children: [
         Scaffold(
-          drawer: Drawer(),
+          floatingActionButton: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0.0,0.50), 
+              end: const Offset(0.0, 0.15))
+              .animate(CurvedAnimation(parent: toursyLocatorAnim!, curve: Curves.elasticInOut)),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 150, right: 20),
+                child: ToursyMapLocatorButton(
+                  onTap: () {
+                    attractionSelectionService.resetViewOnMap();
+                    Utils.mainAppNav.currentState!.pushNamed('/map');
+                  },
+                ),
+              ),
+            ),
+          ),
+          bottomNavigationBar: const ToursyBottomBar(),
+          drawer: const Drawer(child: SideMenu()),
           appBar: const ToursyAppBar(),
           backgroundColor: Colors.white,
           body: Column(
@@ -94,28 +120,10 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                   },
                 )
               ),
-              const ToursyBottomBar()
             ],
           ),
         ),
-        SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0.0,0.35), 
-            end: const Offset(0.0, 0.0))
-            .animate(CurvedAnimation(parent: toursyLocatorAnim!, curve: Curves.elasticInOut)),
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 150, right: 20),
-              child: ToursyMapLocatorButton(
-                onTap: () {
-                  attractionSelectionService.resetViewOnMap();
-                  Utils.mainAppNav.currentState!.pushNamed('/map');
-                },
-              ),
-            ),
-          ),
-        )
+        
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
+import 'package:toursy_flutter_revamp/services/login.service.dart';
 import 'package:toursy_flutter_revamp/services/toursybottombarselection.dart';
 import 'package:toursy_flutter_revamp/widgets/toursybottombaritem.dart';
 
@@ -11,6 +12,11 @@ class ToursyBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ToursyBottomBarSelection>(
       builder: (context, bottomBarSelectionService, child) {
+
+        LoginService loginService = Provider.of<LoginService>(context, listen: true);
+        var isUserLoggedIn = loginService.isUserLoggedIn();
+        var bottomBarItems = bottomBarSelectionService.getBottomBarItems(isUserLoggedIn);
+
         return Container(
           padding: const EdgeInsets.only(top: 20),
           decoration: BoxDecoration(
@@ -25,9 +31,9 @@ class ToursyBottomBar extends StatelessWidget {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(bottomBarSelectionService.bottomBarItems.length,
+            children: List.generate(bottomBarItems.length,
             (index) {
-              var bottomBarItem = bottomBarSelectionService.bottomBarItems[index];
+              var bottomBarItem = bottomBarItems[index];
               return ToursyBottomBarItem(
                 bottomBarItem: bottomBarItem,
                 onTap: () {

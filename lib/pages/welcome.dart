@@ -4,6 +4,7 @@ import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
 import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/services/login.service.dart';
+import 'package:toursy_flutter_revamp/services/toursybottombarselection.dart';
 import 'package:toursy_flutter_revamp/widgets/toursybtn.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyplainbutton.dart';
 
@@ -190,9 +191,12 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
               ToursyPlainButton(
                 onTap: () async {
                   LoginService loginService = Provider.of<LoginService>(context, listen: false);
+                  ToursyBottomBarSelection toursyBottomBarSelection = Provider.of<ToursyBottomBarSelection>(context, listen: false);
+
                   var isLoggedIn = await loginService.signInWithGoogle();
                   if (isLoggedIn) {
-                    Utils.mainAppNav.currentState!.pushNamed('/main');
+                    Utils.mainAppNav.currentState!.pushReplacementNamed('/main');
+                    toursyBottomBarSelection.onBottomBarSelected(toursyBottomBarSelection.bottomBarItems.first);
                   }
                 },
                 label: 'Sign In With Google'
@@ -203,6 +207,8 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
                 label: 'Go To Main Page',
                 onTap: () {
                   Utils.mainAppNav.currentState!.pushReplacementNamed('/main');
+                  ToursyBottomBarSelection toursyBottomBarSelection = Provider.of<ToursyBottomBarSelection>(context, listen: false);
+                  toursyBottomBarSelection.onBottomBarSelected(toursyBottomBarSelection.bottomBarItems.first);
                 },
               )
             ],

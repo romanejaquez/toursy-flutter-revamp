@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
 import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
+import 'package:toursy_flutter_revamp/widgets/userbadge.dart';
 
 class ToursyAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Color? themeColor;
@@ -24,6 +25,9 @@ class _ToursyAppBarState extends State<ToursyAppBar> {
       title: Icon(ToursyFontIcons.toursyText,
         color: widget.themeColor, size: 80
       ),
+      actions: const [
+        UserBadge()
+      ],
     );
   }
 }

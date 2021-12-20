@@ -39,7 +39,7 @@ class _AttractionPageState extends State<AttractionPage> with TickerProviderStat
     toursyLocatorAnim = AnimationController(
       duration: const Duration(milliseconds: 750),
       vsync: this
-    )..forward();
+    );
   }
 
   @override 
@@ -55,6 +55,10 @@ class _AttractionPageState extends State<AttractionPage> with TickerProviderStat
 
     AttractionSelectionService attractionSelectionService = Provider.of<AttractionSelectionService>(context, listen: false);
     AttractionModel selectedAttraction = attractionSelectionService.selectedAttraction!;
+
+    Future.delayed(const Duration(milliseconds: 750), () {
+      toursyLocatorAnim!.forward();
+    });
 
     _controller = YoutubePlayerController(
         initialVideoId: selectedAttraction.video!,
@@ -143,7 +147,7 @@ class _AttractionPageState extends State<AttractionPage> with TickerProviderStat
                       opacity: Tween<double>(begin: 0.0, end: 1.0)
                       .animate(CurvedAnimation(parent: toursyLocatorAnim!, curve: Curves.easeInOut)),
                       child: SlideTransition(
-                        position: Tween<Offset>(begin: const Offset(0.125, 0.0), end: Offset.zero)
+                        position: Tween<Offset>(begin: const Offset(0.25, 0.0), end: Offset.zero)
                         .animate(CurvedAnimation(parent: toursyLocatorAnim!, curve: Curves.elasticInOut)),
                         child: Align(
                           alignment: Alignment.bottomRight,

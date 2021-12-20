@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
 import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 import 'package:toursy_flutter_revamp/models/activitydata.model.dart';
 import 'package:toursy_flutter_revamp/models/attraction.model.dart';
@@ -21,7 +18,8 @@ class Utils {
         icon: ToursyFontIcons.toursyTopRated,
         isSelected: true,
         route: '/',
-        showIfLoggedIn: false,
+        showIfLoggedIn: true,
+        showNormal: true,
         size: 40
       ),
       BottomBarItem(
@@ -29,7 +27,8 @@ class Utils {
         icon: ToursyFontIcons.toursyMap,
         isSelected: false,
         route: '/byregion',
-        showIfLoggedIn: false,
+        showIfLoggedIn: true,
+        showNormal: true,
         size: 40
       ),
       BottomBarItem(
@@ -37,7 +36,8 @@ class Utils {
         icon: ToursyFontIcons.toursyWalk,
         isSelected: false,
         route: '/byactivity',
-        showIfLoggedIn: false,
+        showIfLoggedIn: true,
+        showNormal: true,
         size: 40
       ),
       BottomBarItem(
@@ -46,6 +46,7 @@ class Utils {
         isSelected: false,
         route: '/favorites',
         showIfLoggedIn: true,
+        showNormal: false,
         size: 30
       )
     ];

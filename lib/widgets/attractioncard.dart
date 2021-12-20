@@ -57,36 +57,38 @@ class _AttractionCardState extends State<AttractionCard> with SingleTickerProvid
                   ),
                   Hero(
                     tag: widget.cardInfo!.id!,
-                    child: Container(
+                    child: SizedBox(
                       height: 250,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(60),
-                          bottomRight: Radius.circular(60)
-                        ),
-                        image: DecorationImage(
-                          image: NetworkImage(widget.cardInfo!.img!),
-                          fit: BoxFit.cover
-                        )
-                      ),
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(60),
-                            bottomRight: Radius.circular(60)
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            left: 0,
+                            right: 0,
+                            child: FadeInImage.assetNetwork(
+                              placeholder: './assets/imgs/toursybg.png', 
+                              image: widget.cardInfo!.img!,
+                              fit: BoxFit.cover
+                            )
                           ),
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.transparent,
-                              Colors.black.withOpacity(0.5)
-                            ],
-                            begin: Alignment.center,
-                            end: Alignment.bottomCenter
+                          Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(60),
+                                bottomRight: Radius.circular(60)
+                              ),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black.withOpacity(0.5)
+                                ],
+                                begin: Alignment.center,
+                                end: Alignment.bottomCenter
+                              )
+                            )
                           )
-                        ),
-                      )
+                        ],
+                      ),
                     ),
                   )
                 ]
