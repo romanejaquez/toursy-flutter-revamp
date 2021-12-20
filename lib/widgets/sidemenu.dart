@@ -6,6 +6,10 @@ import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/services/login.service.dart';
 import 'package:toursy_flutter_revamp/services/toursybottombarselection.dart';
 import 'package:toursy_flutter_revamp/widgets/sidemenuitem.dart';
+import 'package:toursy_flutter_revamp/widgets/toursyalert.dart';
+import 'package:toursy_flutter_revamp/widgets/toursybtn.dart';
+import 'package:toursy_flutter_revamp/widgets/toursymaplocatorbutton.dart';
+import 'package:toursy_flutter_revamp/widgets/toursyplainbutton.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);
@@ -33,12 +37,28 @@ class SideMenu extends StatelessWidget {
                         SideMenuItem(
                           onTap: () async {
                               if (loginService.isUserLoggedIn()) {
-                                loginService.signOut(() {
-                                  ToursyBottomBarSelection bottomBarSelection = Provider.of<ToursyBottomBarSelection>(context, listen: false);
-                                  bottomBarSelection.resetSelection();
-                                  
-                                  Utils.mainAppNav.currentState!.popAndPushNamed('/welcome');
-                                });
+                                Utils.mainAppNav.currentState!.pop();
+                                
+                                showDialog(
+                                  barrierDismissible: true,
+                                  context: context,
+                                  builder: (context) {
+                                    return ToursyAlert(
+                                      title: 'Signing Out',
+                                      message: 'Are you sure you want to sign out?',
+                                      onYes: () {
+                                        loginService.signOut(() {
+                                          ToursyBottomBarSelection bottomBarSelection = Provider.of<ToursyBottomBarSelection>(context, listen: false);
+                                          bottomBarSelection.resetSelection();
+                                          Utils.mainAppNav.currentState!.popUntil((route) => route.settings.name == '/welcome');
+                                        });
+                                      },
+                                      onNo: () {
+                                        Utils.mainAppNav.currentState!.pop(); 
+                                      },
+                                    );
+                                  }
+                                );
                               }
                               else {
                                 var isLoggedIn = await loginService.signInWithGoogle();

@@ -191,12 +191,10 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
               ToursyPlainButton(
                 onTap: () async {
                   LoginService loginService = Provider.of<LoginService>(context, listen: false);
-                  ToursyBottomBarSelection toursyBottomBarSelection = Provider.of<ToursyBottomBarSelection>(context, listen: false);
 
                   var isLoggedIn = await loginService.signInWithGoogle();
                   if (isLoggedIn) {
-                    Utils.mainAppNav.currentState!.pushReplacementNamed('/main');
-                    toursyBottomBarSelection.onBottomBarSelected(toursyBottomBarSelection.bottomBarItems.first);
+                    Utils.mainAppNav.currentState!.pushNamed('/main');
                   }
                 },
                 label: 'Sign In With Google'
@@ -206,9 +204,7 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
               ToursyButton(
                 label: 'Go To Main Page',
                 onTap: () {
-                  Utils.mainAppNav.currentState!.pushReplacementNamed('/main');
-                  ToursyBottomBarSelection toursyBottomBarSelection = Provider.of<ToursyBottomBarSelection>(context, listen: false);
-                  toursyBottomBarSelection.onBottomBarSelected(toursyBottomBarSelection.bottomBarItems.first);
+                  Utils.mainAppNav.currentState!.pushNamed('/main');
                 },
               )
             ],
