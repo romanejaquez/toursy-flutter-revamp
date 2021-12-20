@@ -7,9 +7,6 @@ import 'package:toursy_flutter_revamp/services/login.service.dart';
 import 'package:toursy_flutter_revamp/services/toursybottombarselection.dart';
 import 'package:toursy_flutter_revamp/widgets/sidemenuitem.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyalert.dart';
-import 'package:toursy_flutter_revamp/widgets/toursybtn.dart';
-import 'package:toursy_flutter_revamp/widgets/toursymaplocatorbutton.dart';
-import 'package:toursy_flutter_revamp/widgets/toursyplainbutton.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({Key? key}) : super(key: key);

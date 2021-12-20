@@ -7,6 +7,7 @@ import 'package:toursy_flutter_revamp/pages/attractions.dart';
 import 'package:toursy_flutter_revamp/pages/main.dart';
 import 'package:toursy_flutter_revamp/pages/map.dart';
 import 'package:toursy_flutter_revamp/pages/splash.dart';
+import 'package:toursy_flutter_revamp/pages/userprofile.dart';
 import 'package:toursy_flutter_revamp/pages/welcome.dart';
 import 'package:toursy_flutter_revamp/services/attractioncategoryselectionservice.dart';
 import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
@@ -79,7 +80,8 @@ class ToursyApp extends StatelessWidget {
         '/main': (context) => const MainPage(),
         '/attractions': (context) => const AttractionsPage(),
         '/attraction': (context) => const AttractionPage(),
-        '/map': (context) => MapPage()
+        '/map': (context) => const MapPage(),
+        '/profile': (context) => const UserProfilePage(),
       }
     );
   }

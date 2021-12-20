@@ -6,7 +6,6 @@ import 'package:toursy_flutter_revamp/pages/byregion.dart';
 import 'package:toursy_flutter_revamp/pages/favorites.dart';
 import 'package:toursy_flutter_revamp/pages/topattractions.dart';
 import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
-import 'package:toursy_flutter_revamp/services/toursybottombarselection.dart';
 import 'package:toursy_flutter_revamp/widgets/sidemenu.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyappbar.dart';
 import 'package:toursy_flutter_revamp/widgets/toursybottombar.dart';
@@ -42,9 +41,8 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
 
     AttractionSelectionService attractionSelectionService = Provider.of<AttractionSelectionService>(context, listen: false);
-    ToursyBottomBarSelection toursyBottomBarSelection = Provider.of<ToursyBottomBarSelection>(context, listen: false);
 
-    Future.delayed(const Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       toursyLocatorAnim!.forward();
     });
 

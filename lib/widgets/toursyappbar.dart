@@ -5,7 +5,11 @@ import 'package:toursy_flutter_revamp/widgets/userbadge.dart';
 
 class ToursyAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Color? themeColor;
-  const ToursyAppBar({Key? key, this.themeColor = ToursyColors.primaryGreen}) : super(key: key);
+  final bool? showUserBadge;
+  const ToursyAppBar({Key? key,
+  this.themeColor = ToursyColors.primaryGreen,
+  this.showUserBadge = true
+  }) : super(key: key);
 
   @override
   _ToursyAppBarState createState() => _ToursyAppBarState();
@@ -25,8 +29,11 @@ class _ToursyAppBarState extends State<ToursyAppBar> {
       title: Icon(ToursyFontIcons.toursyText,
         color: widget.themeColor, size: 80
       ),
-      actions: const [
-        UserBadge()
+      actions: [
+        Visibility(
+          visible: widget.showUserBadge!,
+          child: const UserBadge()
+        )
       ],
     );
   }

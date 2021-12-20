@@ -35,6 +35,12 @@ class _ToursyAlertState extends State<ToursyAlert> with TickerProviderStateMixin
     )..forward();
   }
 
+  @override 
+  void dispose() {
+    dialogAnimController!.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScaleTransition(
