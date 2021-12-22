@@ -31,67 +31,66 @@ class _AttractionCardState extends State<AttractionCard> with SingleTickerProvid
       onTap: () { widget.onTap!(); },
       child: Container(
         margin: const EdgeInsets.only(top: 15, bottom: 15),
-        child: Stack(
+        height: 250,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(60),
+            bottomRight: Radius.circular(60)
+          ),
+          child: Stack(
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(60),
-                bottomRight: Radius.circular(60)
-              ),
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: Container(
+            Hero(
+              tag: widget.cardInfo!.id!,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(60),
+                  bottomRight: Radius.circular(60)
+                ), 
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(60),
+                            bottomRight: Radius.circular(60)
+                          ),
+                          image: DecorationImage(
+                            image: AssetImage('./assets/imgs/toursybg.png'),
+                            fit: BoxFit.cover
+                          )
+                        )
+                      )
+                    ),
+                    Positioned.fill(
+                      left: 0,
+                      right: 0,
+                      child: FadeInImage.assetNetwork(
+                        placeholder: './assets/imgs/toursybg.png', 
+                        image: widget.cardInfo!.img!,
+                        fit: BoxFit.cover
+                      )
+                    ),
+                    Container(
                       alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(60),
                           bottomRight: Radius.circular(60)
                         ),
-                        image: DecorationImage(
-                          image: AssetImage('./assets/imgs/toursybg.png'),
-                          fit: BoxFit.cover
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.5)
+                          ],
+                          begin: Alignment.center,
+                          end: Alignment.bottomCenter
                         )
                       )
                     )
-                  ),
-                  Hero(
-                    tag: widget.cardInfo!.id!,
-                    child: SizedBox(
-                      height: 250,
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            left: 0,
-                            right: 0,
-                            child: FadeInImage.assetNetwork(
-                              placeholder: './assets/imgs/toursybg.png', 
-                              image: widget.cardInfo!.img!,
-                              fit: BoxFit.cover
-                            )
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(60),
-                                bottomRight: Radius.circular(60)
-                              ),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.transparent,
-                                  Colors.black.withOpacity(0.5)
-                                ],
-                                begin: Alignment.center,
-                                end: Alignment.bottomCenter
-                              )
-                            )
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ]
+                  ],
+                ),
               ),
             ),
             Positioned.fill(
@@ -125,6 +124,7 @@ class _AttractionCardState extends State<AttractionCard> with SingleTickerProvid
           ],
         ),
       ),
+      )
     );
   }
 
