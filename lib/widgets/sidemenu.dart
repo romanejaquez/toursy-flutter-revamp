@@ -70,7 +70,10 @@ class SideMenu extends StatelessWidget {
                         Visibility(
                           visible: loginService.isUserLoggedIn(),
                           child: SideMenuItem(
-                            onTap: () {},
+                            onTap: () {
+                              Utils.mainAppNav.currentState!.pop();
+                              Utils.mainAppNav.currentState!.pushNamed('/profile');
+                            },
                               label: 'My Profile',
                             ),
                           )
