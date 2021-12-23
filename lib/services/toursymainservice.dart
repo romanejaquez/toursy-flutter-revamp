@@ -20,11 +20,33 @@ class ToursyMainService {
     ]);
   }
 
-  Future<List<AttractionModel>> getAllAttractions(context ) async {
+  Future<List<AttractionModel>> getAllAttractions(BuildContext context) async {
     List<AttractionModel> allAttractions = [];
     RegionalDataService regionalDataService = Provider.of<RegionalDataService>(context, listen: false);
     allAttractions = await regionalDataService.getAllAttractions();
 
     return allAttractions;
+  }
+
+  List<AttractionModel> getAttractionsFromList(List<dynamic> favoritesList, BuildContext context) {
+
+    ByActivityService byActivityService = Provider.of<ByActivityService>(context, listen: false);
+    RegionalDataService regionalDataService = Provider.of<RegionalDataService>(context, listen: false);
+    TopAttractionsService topAttractionsService = Provider.of<TopAttractionsService>(context, listen: false);
+    List<AttractionModel> attractionsList = [];
+
+    for(var activity in regionalDataService.allAttractions) {
+      if (favoritesList.contains(activity.id)) {
+        attractionsList.add(activity);
+      }
+    }
+
+    for(var activity in topAttractionsService.topAttractions) {
+      if (favoritesList.contains(activity.id)) {
+        attractionsList.add(activity);
+      }
+    }
+
+    return attractionsList;
   }
 }

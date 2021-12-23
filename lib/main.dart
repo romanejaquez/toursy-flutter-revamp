@@ -12,6 +12,7 @@ import 'package:toursy_flutter_revamp/pages/welcome.dart';
 import 'package:toursy_flutter_revamp/services/attractioncategoryselectionservice.dart';
 import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
 import 'package:toursy_flutter_revamp/services/byactivityservice.dart';
+import 'package:toursy_flutter_revamp/services/favorites.service.dart';
 import 'package:toursy_flutter_revamp/services/login.service.dart';
 import 'package:toursy_flutter_revamp/services/regionaldataservice.dart';
 import 'package:toursy_flutter_revamp/services/topattractionsservice.dart';
@@ -51,6 +52,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => LoginService()
+        ),
+        Provider(
+          create: (_) => FavoritesService()
         )
       ],
       child: const ToursyApp(),

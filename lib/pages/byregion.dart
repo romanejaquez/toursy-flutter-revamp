@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toursy_flutter_revamp/helpers/utils.dart';
-import 'package:toursy_flutter_revamp/models/activitydata.model.dart';
 import 'package:toursy_flutter_revamp/models/attractioncard.model.dart';
 import 'package:toursy_flutter_revamp/models/attractioncategoryselection.model.dart';
 import 'package:toursy_flutter_revamp/models/regionaldata.model.dart';

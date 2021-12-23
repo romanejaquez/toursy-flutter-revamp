@@ -14,9 +14,14 @@ class UserProfilePage extends StatefulWidget {
   State<UserProfilePage> createState() => _UserProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProviderStateMixin {
+class _UserProfilePageState extends State<UserProfilePage> with TickerProviderStateMixin {
   
   AnimationController? circle1Controller;
+  AnimationController? comp1Controller;
+  AnimationController? comp2Controller;
+  AnimationController? comp3Controller;
+
+  List<AnimationController>? controllers = [];
 
   @override
   void initState() {
@@ -26,11 +31,44 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
       duration: const Duration(milliseconds: 10000),
       vsync: this
     )..repeat();
+
+    comp1Controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this
+    );
+
+    comp2Controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this
+    );
+
+    comp3Controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this
+    );
+
+    controllers!.add(circle1Controller!);
+    controllers!.add(comp1Controller!);
+    controllers!.add(comp2Controller!);
+    controllers!.add(comp3Controller!);
+  }
+
+  Widget getTransitionWidget(Widget child, AnimationController controller) {
+    return SlideTransition(
+      position: Tween<Offset>(begin: const Offset(0.0, 0.35), end: Offset.zero)
+      .animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut)),
+      child: FadeTransition(opacity: Tween<double>(begin: 0.0, end: 1.0)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut)),
+        child: child
+      )
+    );
   }
 
   @override 
   void dispose() {
-    circle1Controller!.dispose();
+    for(var ctrl in controllers!) {
+      ctrl.dispose();
+    }
     super.dispose();
   }
   
@@ -39,6 +77,14 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
 
     LoginService loginService = Provider.of<LoginService>(context, listen: false);
     LoginUserModel userModel = loginService.loggedInUserModel!;
+
+    int count = 100;
+    for(var ctrl in controllers!) {
+      Future.delayed(Duration(milliseconds: count), () {
+        ctrl.forward();
+      });
+      count+= count;
+    }
 
     return Scaffold(
       appBar: const ToursyAppBar(showUserBadge: false),
@@ -74,46 +120,64 @@ class _UserProfilePageState extends State<UserProfilePage> with SingleTickerProv
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 40),
-                Stack(
-                  children: [
-                    Transform.scale(scale: 1.15,
-                      child: const ToursyMapLocatorButton()
-                    ),
-                    ClipOval(
-                      child: SizedBox(
-                        width: 80,
-                        height: 80,
-                        child: Image.network(
-                          userModel.photoUrl!,
+                getTransitionWidget(
+                  Stack(
+                    children: [
+                      Transform.scale(scale: 1.15,
+                        child: const ToursyMapLocatorButton()
+                      ),
+                      ClipOval(
+                        child: SizedBox(
                           width: 80,
                           height: 80,
-                          fit: BoxFit.cover
+                          child: Image.network(
+                            userModel.photoUrl!,
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover
+                          ),
+                        ),
+                      )
+                    ],
+                  ), comp1Controller!
+                ),
+                const SizedBox(height: 40),
+                getTransitionWidget(
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.75,
+                        child: Text(userModel.displayName!,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 25, color: ToursyColors.secondaryGreen, fontWeight: FontWeight.bold)
                         ),
                       ),
-                    )
-                  ],
+                      Text(userModel.email!,
+                        style: const TextStyle(fontSize: 15, color: Colors.grey)
+                      )
+                    ],
+                  ),
+                  comp2Controller!
                 ),
                 const SizedBox(height: 40),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  child: Text(userModel.displayName!,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 25, color: ToursyColors.secondaryGreen, fontWeight: FontWeight.bold)
+                getTransitionWidget(
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(ToursyFontIcons.toursyLogo, color: Colors.grey.withOpacity(0.2), size: 60),
+                      const SizedBox(height: 20),
+                      const SizedBox(
+                        width: 200,
+                        height: 200,
+                        child: Text('You don\'t have any favorite attractions yet!', 
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.grey)
+                        ),
+                      )
+                    ],
                   ),
-                ),
-                Text(userModel.email!,
-                  style: const TextStyle(fontSize: 15, color: Colors.grey)
-                ),
-                const SizedBox(height: 40),
-                Icon(ToursyFontIcons.toursyLogo, color: Colors.grey.withOpacity(0.2), size: 60),
-                const SizedBox(height: 20),
-                const SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: Text('You don\'t have any favorite attractions yet!', 
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey)
-                  ),
+                  comp3Controller!
                 )
               ],
             )
