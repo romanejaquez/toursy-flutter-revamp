@@ -53,7 +53,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => LoginService()
         ),
-        Provider(
+        ChangeNotifierProvider(
           create: (_) => FavoritesService()
         )
       ],

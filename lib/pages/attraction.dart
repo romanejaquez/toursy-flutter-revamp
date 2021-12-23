@@ -5,6 +5,7 @@ import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/models/attraction.model.dart';
 import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyappbar.dart';
+import 'package:toursy_flutter_revamp/widgets/toursyfavoriteselection.dart';
 import 'package:toursy_flutter_revamp/widgets/toursymaplocatorbutton.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -131,6 +132,7 @@ class _AttractionPageState extends State<AttractionPage> with TickerProviderStat
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
+                                  ToursyFavoriteSelection(attraction: selectedAttraction),
                                   Text(selectedAttraction.name!,
                                     style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 35)
                                   ),
