@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
+import 'package:provider/provider.dart';
+import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/models/attraction.model.dart';
+import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
+import 'package:toursy_flutter_revamp/services/favorites.service.dart';
 import 'package:toursy_flutter_revamp/widgets/animatedlistrow.dart';
+import 'package:toursy_flutter_revamp/widgets/toursyfavoritelistrow.dart';
 
 class ToursyFavoritesList extends StatefulWidget {
 
@@ -22,62 +26,37 @@ class _ToursyFavoritesListState extends State<ToursyFavoritesList> {
   void initState() {
     super.initState();
 
-    var future = Future(() {});
-    for (var i = 0; i < widget.attractions!.length; i++) {
-      future = future.then((_) {
-        return Future.delayed(const Duration(milliseconds: 125), () {
-          insertedItems.add(widget.attractions![i]);
-          _key.currentState!.insertItem(i);
-        });
-      });
-    }
+    // var future = Future(() {});
+    // for (var i = 0; i < widget.attractions!.length; i++) {
+    //   future = future.then((_) {
+    //     return Future.delayed(const Duration(milliseconds: 125), () {
+    //       insertedItems.add(widget.attractions![i]);
+    //       _key.currentState!.insertItem(i);
+    //     });
+    //   });
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedList(
+
+    FavoritesService favoritesService = Provider.of<FavoritesService>(context, listen: false);
+    AttractionSelectionService attractionSelectionService = Provider.of<AttractionSelectionService>(context, listen: false);
+   
+    return ListView.builder(
       padding: const EdgeInsets.only(bottom: 100),
-      key: _key,
-      initialItemCount: insertedItems.length,
-      itemBuilder: (context, index, animation) {
+      itemCount: widget.attractions!.length,
+      itemBuilder: (context, index) {
         var rowItem = widget.attractions![index];
-        return AnimatedListRow(
-          animation: animation,
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                ClipOval(
-                  child: Image.network(rowItem.img!, width: 80, height: 80, fit: BoxFit.cover)
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(rowItem.name!, 
-                        style: const TextStyle(
-                          fontSize: 20, 
-                          fontWeight: FontWeight.bold, 
-                          color: ToursyColors.secondaryGreen
-                        )
-                      ),
-                      Text(rowItem.province!, 
-                        style: const TextStyle(
-                          fontSize: 15, 
-                          color: ToursyColors.primaryGreen
-                        )
-                      )
-                    ]
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.highlight_off, color: ToursyColors.primaryGreen),
-                  onPressed: () {}
-                )
-              ],
-            ),
-          )
+        return ToursyFavoriteListRow(
+          attraction: rowItem,
+          onSelectRow: () {
+            attractionSelectionService.onSelectAttraction(rowItem);
+            Utils.mainAppNav.currentState!.pushNamed('/attraction');
+          },
+          onRemove: () {
+            favoritesService.saveAttractionAsFavorite(rowItem, context, add: false);
+          }
         );
       }
     );

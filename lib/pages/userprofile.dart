@@ -5,6 +5,7 @@ import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 import 'package:toursy_flutter_revamp/models/loginuser.model.dart';
 import 'package:toursy_flutter_revamp/services/login.service.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyappbar.dart';
+import 'package:toursy_flutter_revamp/widgets/toursyfavoritescount.dart';
 import 'package:toursy_flutter_revamp/widgets/toursymaplocatorbutton.dart';
 
 class UserProfilePage extends StatefulWidget {
@@ -162,21 +163,7 @@ class _UserProfilePageState extends State<UserProfilePage> with TickerProviderSt
                 ),
                 const SizedBox(height: 40),
                 getTransitionWidget(
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(ToursyFontIcons.toursyLogo, color: Colors.grey.withOpacity(0.2), size: 60),
-                      const SizedBox(height: 20),
-                      const SizedBox(
-                        width: 200,
-                        height: 200,
-                        child: Text('You don\'t have any favorite attractions yet!', 
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.grey)
-                        ),
-                      )
-                    ],
-                  ),
+                  const ToursyFavoritesCount(),
                   comp3Controller!
                 )
               ],

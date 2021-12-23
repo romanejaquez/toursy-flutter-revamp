@@ -74,7 +74,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   var dataSnapshot = (snapshot.data as DocumentSnapshot).data() as Map<String, dynamic>;
                   var favoritesList = dataSnapshot['favorites'] as List<dynamic>;
 
-                  if (favoritesList.length > 0) {
+                  if (favoritesList.isNotEmpty) {
                     var attractionModelList = toursyMainService.getAttractionsFromList(favoritesList, context);
                     returningWidget = ToursyFavoritesList(attractions: attractionModelList);
                   }
@@ -100,7 +100,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   child: returningWidget
                 );
               }
-              
             )
           )
         ]

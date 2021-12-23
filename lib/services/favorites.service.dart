@@ -20,9 +20,7 @@ class FavoritesService extends ChangeNotifier {
         if (snapshot.exists) {
           var savedListMap = snapshot.data() as Map<String, dynamic>;
           var savedList = savedListMap['favorites'] as List<dynamic>;
-          if (savedList.contains(attraction.id)) {
-            attractionSavedCompleter.complete(true);
-          }
+          attractionSavedCompleter.complete(savedList.contains(attraction.id));
         }
         else {
           attractionSavedCompleter.complete(false);

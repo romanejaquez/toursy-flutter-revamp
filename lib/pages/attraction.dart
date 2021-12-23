@@ -4,6 +4,7 @@ import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
 import 'package:toursy_flutter_revamp/helpers/utils.dart';
 import 'package:toursy_flutter_revamp/models/attraction.model.dart';
 import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
+import 'package:toursy_flutter_revamp/services/favorites.service.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyappbar.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyfavoriteselection.dart';
 import 'package:toursy_flutter_revamp/widgets/toursymaplocatorbutton.dart';
@@ -48,6 +49,7 @@ class _AttractionPageState extends State<AttractionPage> with TickerProviderStat
     _controller!.dispose();
     textContentController!.dispose();
     videoContentController!.dispose();
+    toursyLocatorAnim!.dispose();
     super.dispose();
   }
   
