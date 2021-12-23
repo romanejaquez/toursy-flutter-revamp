@@ -9,16 +9,16 @@ class ToursyFavoriteSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FavoritesService favorites = Provider.of<FavoritesService>(context, listen: false);
+    
+    return Consumer<FavoritesService>(
+      builder: (context, favoritesService, child) {
 
-    return FutureBuilder(
-      future: favorites.isAttractionSaved(attraction!, context),
-      builder: (context, snapshot) {
-        return Consumer<FavoritesService>(
-          builder: (context, favoritesService, child) {
+        return FutureBuilder(
+          future: favoritesService.isAttractionSaved(attraction!, context),
+          builder: (context, snapshot) {
 
             var favoriteIcon = snapshot.hasData ? (snapshot.data == true ? 
-              Icons.favorite : Icons.favorite_outline) : Icons.favorite_outline;
+            Icons.favorite : Icons.favorite_outline) : Icons.favorite_outline;
 
             return IconButton(
               icon: Icon(favoriteIcon, color: Colors.white, size: 30),
@@ -26,9 +26,8 @@ class ToursyFavoriteSelection extends StatelessWidget {
                 favoritesService.saveAttractionAsFavorite(attraction!, context);
               },
             );
-          },
-        );
-      }
+        });
+      },
     );
   }
 }

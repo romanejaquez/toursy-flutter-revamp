@@ -30,12 +30,11 @@ class ToursyMainService {
 
   List<AttractionModel> getAttractionsFromList(List<dynamic> favoritesList, BuildContext context) {
 
-    ByActivityService byActivityService = Provider.of<ByActivityService>(context, listen: false);
     RegionalDataService regionalDataService = Provider.of<RegionalDataService>(context, listen: false);
     TopAttractionsService topAttractionsService = Provider.of<TopAttractionsService>(context, listen: false);
     List<AttractionModel> attractionsList = [];
 
-    for(var activity in regionalDataService.allAttractions) {
+    for(var activity in regionalDataService.getAllAttractions()) {
       if (favoritesList.contains(activity.id)) {
         attractionsList.add(activity);
       }
