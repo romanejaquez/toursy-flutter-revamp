@@ -7,6 +7,7 @@ import 'package:toursy_flutter_revamp/services/attractionselectionservice.dart';
 import 'package:toursy_flutter_revamp/services/favorites.service.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyappbar.dart';
 import 'package:toursy_flutter_revamp/widgets/toursyfavoriteselection.dart';
+import 'package:toursy_flutter_revamp/widgets/toursyherobubbles.dart';
 import 'package:toursy_flutter_revamp/widgets/toursymaplocatorbutton.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -120,6 +121,7 @@ class _AttractionPageState extends State<AttractionPage> with TickerProviderStat
                         ),
                       ),
                     ),
+                    const ToursyHeroBubbles(),
                     SlideTransition(
                       position: Tween<Offset>(begin: const Offset(-0.25, 0.0), end: Offset.zero)
                       .animate(CurvedAnimation(parent: textContentController!, curve: Curves.easeInOut)),
