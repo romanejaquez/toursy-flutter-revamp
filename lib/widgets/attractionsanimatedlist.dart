@@ -22,7 +22,9 @@ class _AttractionsAnimatedListState extends State<AttractionsAnimatedList> {
   void initState() {
     super.initState();
 
-    Utils.insertListItemsInFuture(widget.attractions!, actualList, _key);
+    if (widget.attractions != null) {
+      Utils.insertListItemsInFuture(widget.attractions!, actualList, _key);
+    }
   }
   
   @override

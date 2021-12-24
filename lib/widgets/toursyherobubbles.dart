@@ -25,32 +25,32 @@ class _ToursyHeroBubblesState extends State<ToursyHeroBubbles> with TickerProvid
     super.initState();
 
     bubble1Anim = AnimationController(
-      vsync: this, duration: const Duration(milliseconds: 600)
-    )..forward();
+      vsync: this, duration: const Duration(milliseconds: 1000)
+    );
 
     bubble2Anim = AnimationController(
-      vsync: this, duration: const Duration(milliseconds: 650)
-    )..forward();
+      vsync: this, duration: const Duration(milliseconds: 1000)
+    );
 
     bubble3Anim = AnimationController(
-      vsync: this, duration: const Duration(milliseconds: 700)
-    )..forward();
+      vsync: this, duration: const Duration(milliseconds: 1000)
+    );
 
     bubble4Anim = AnimationController(
-      vsync: this, duration: const Duration(milliseconds: 750)
-    )..forward();
+      vsync: this, duration: const Duration(milliseconds: 1000)
+    );
 
     bubble5Anim = AnimationController(
-      vsync: this, duration: const Duration(milliseconds: 800)
-    )..forward();
+      vsync: this, duration: const Duration(milliseconds: 1000)
+    );
 
     bubble6Anim = AnimationController(
-      vsync: this, duration: const Duration(milliseconds: 850)
-    )..forward();
+      vsync: this, duration: const Duration(milliseconds: 1000)
+    );
 
     bubble7Anim = AnimationController(
-      vsync: this, duration: const Duration(milliseconds: 900)
-    )..forward();
+      vsync: this, duration: const Duration(milliseconds: 1000)
+    );
 
     bubbleAnims!.add(bubble1Anim!);
     bubbleAnims!.add(bubble2Anim!);
@@ -72,13 +72,16 @@ class _ToursyHeroBubblesState extends State<ToursyHeroBubbles> with TickerProvid
   @override
   Widget build(BuildContext context) {
 
-    // int count = 50;
-    // for(var ctrl in bubbleAnims!) {
-    //   Future.delayed(Duration(milliseconds: count), () {
-    //     ctrl.forward();
-    //   });
-    //   count+= count;
-    // }
+    if (mounted) {
+      var future = Future(() {});
+      for(var ctrl in bubbleAnims!) {
+          future = future.then((_) {
+            return Future.delayed(const Duration(milliseconds: 125), () {
+              ctrl.forward();
+            });
+        });
+      }
+    }
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
