@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
 import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 import 'package:toursy_flutter_revamp/helpers/utils.dart';
-import 'package:toursy_flutter_revamp/services/toursymainservice.dart';
+import 'package:toursy_flutter_revamp/widgets/toursysplashstatus.dart';
 
 class SplashPage extends StatefulWidget {
-  int? duration;
-  String? goToPage;
+  final int? duration;
+  final String? goToPage;
 
-  SplashPage({Key? key, this.duration, this.goToPage}) : super(key: key);
+  const SplashPage({Key? key, this.duration, this.goToPage}) : super(key: key);
 
   @override
   State<SplashPage> createState() => _SplashPageState();
 }
 
 class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
-  AnimationController? textController;
   AnimationController? circle1Controller;
   AnimationController? circle2Controller;
   AnimationController? logoController;
@@ -24,11 +22,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
-    textController = AnimationController(
-      duration: const Duration(milliseconds: 750),
-      vsync: this
-    )..repeat(reverse: true);
 
     circle1Controller = AnimationController(
       duration: const Duration(milliseconds: 3000),
@@ -48,7 +41,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    textController!.dispose();
     logoController!.dispose();
     circle1Controller!.dispose();
     circle2Controller!.dispose();
@@ -57,15 +49,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   
   @override
   Widget build(BuildContext context) {
-
-    ToursyMainService toursyMainService = Provider.of<ToursyMainService>(context, listen: false);
-    
-    toursyMainService.fetchAllData(context).then((value) {
-      Future.delayed(Duration(seconds: widget.duration!), () {
-        Utils.mainAppNav.currentState!.pushReplacementNamed(
-          widget.goToPage!);
-      });
-    });
 
     Future.delayed(const Duration(milliseconds: 1500), () {
       circle2Controller!.forward();
@@ -124,22 +107,14 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 50,
-                  width: 50,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 5,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                FadeTransition(
-                  opacity: Tween<double>(begin: 1.0, end: 0.0)
-                  .animate(CurvedAnimation(parent: textController!, curve: Curves.easeInOut)),
-                  child: const Text('Fetching amazing\ntouristic data. Hang on!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white)
-                  ),
+                
+                ToursySplashStatus(
+                  onDataRetrieved: () {
+                    Future.delayed(Duration(seconds: widget.duration!), () {
+                      Utils.mainAppNav.currentState!.pushReplacementNamed(
+                        widget.goToPage!);
+                    });
+                  },
                 ),
                 const SizedBox(height: 100)
               ]

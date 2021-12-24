@@ -55,6 +55,13 @@ class FavoritesService extends ChangeNotifier {
         'favorites': add ? FieldValue.arrayUnion([attraction.id]) : FieldValue.arrayRemove([attraction.id])
       }).then((value) {
         notifyListeners();
+      }).catchError((error) {
+        FirebaseFirestore.instance.collection('favorites')
+        .doc(userDocId).set({
+          'favorites': [attraction.id]
+        }).then((value) {
+          notifyListeners();
+        });
       });
     }
   }

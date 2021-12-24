@@ -31,6 +31,6 @@ class ToursyBottomBarSelection extends ChangeNotifier {
   }
 
   void resetSelection() {
-    bottomBarItems.first.isSelected = true;
+    onBottomBarSelected(bottomBarItems.first);
   }
 }

@@ -21,6 +21,19 @@ class ToursyFavoritesCount extends StatelessWidget {
       builder: (context, snapshot) {
 
         Widget? returningWidget;
+        Widget noFavoritesYetWidget = Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(ToursyFontIcons.toursyLogo, color: Colors.grey.withOpacity(0.5), size: 80),
+              const SizedBox(height: 20),
+              const Text('You don\'t have\nany favorites yet!', 
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey)
+              )
+            ],
+          )
+        );
 
         if (snapshot.hasError) {
           returningWidget = Center(
@@ -38,69 +51,50 @@ class ToursyFavoritesCount extends StatelessWidget {
           );
         }
         else if (!snapshot.hasData) {
-          returningWidget = Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(ToursyFontIcons.toursyLogo, color: Colors.grey.withOpacity(0.5), size: 80),
-                const SizedBox(height: 20),
-                const Text('You don\'t have\nany favorites yet!', 
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey)
-                )
-              ],
-            )
-          );
+          returningWidget = noFavoritesYetWidget;
         }
         else {
-          var dataSnapshot = (snapshot.data as DocumentSnapshot).data() as Map<String, dynamic>;
-          var favoritesList = dataSnapshot['favorites'] as List<dynamic>;
+          if (snapshot.data != null && (snapshot.data as DocumentSnapshot).data() != null) {
+            var dataSnapshot = (snapshot.data as DocumentSnapshot).data() as Map<String, dynamic>;
+            var favoritesList = dataSnapshot['favorites'] as List<dynamic>;
 
-          if (favoritesList.isNotEmpty) {
-            returningWidget = Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
-                    width: 100,
-                    height: 80,
-                    constraints: const BoxConstraints(minWidth: 120),
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                      color: ToursyColors.primaryGreen,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        bottomRight: Radius.circular(40)
+            if (favoritesList.isNotEmpty) {
+              returningWidget = Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
+                      width: 100,
+                      height: 80,
+                      constraints: const BoxConstraints(minWidth: 120),
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: ToursyColors.primaryGreen,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          bottomRight: Radius.circular(40)
+                        )
+                      ),
+                      child: Text('${favoritesList.length}',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 50)
                       )
                     ),
-                    child: Text('${favoritesList.length}',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 50)
+                    const SizedBox(height: 20),
+                    const Text('Favorite Attractions Saved',
+                      style: TextStyle(color: ToursyColors.secondaryGreen)
                     )
-                  ),
-                  const SizedBox(height: 20),
-                  const Text('Favorite Attractions Saved',
-                    style: TextStyle(color: ToursyColors.secondaryGreen)
-                  )
-                ],
-              ),
-            );
+                  ],
+                ),
+              );
+            }
+            else {
+              returningWidget = noFavoritesYetWidget;
+            }
           }
           else {
-            returningWidget = Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(ToursyFontIcons.toursyLogo, color: Colors.grey.withOpacity(0.5), size: 80),
-                  const SizedBox(height: 20),
-                  const Text('You don\'t have\nany favorites yet!', 
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey)
-                  )
-                ],
-              )
-            );
+            returningWidget = noFavoritesYetWidget;
           }
         }
 

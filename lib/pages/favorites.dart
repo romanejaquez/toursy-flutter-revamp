@@ -39,6 +39,19 @@ class _FavoritesPageState extends State<FavoritesPage> {
               builder: (context, snapshot) {
 
                 Widget? returningWidget;
+                Widget noFavoritesYetWidget = Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(ToursyFontIcons.toursyLogo, color: Colors.grey.withOpacity(0.5), size: 80),
+                      const SizedBox(height: 20),
+                      const Text('You don\'t have\nany favorites yet!', 
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.grey)
+                      )
+                    ],
+                  )
+                );
 
                 if (snapshot.hasError) {
                   returningWidget = Center(
@@ -56,42 +69,23 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   );
                 }
                 else if (!snapshot.hasData) {
-                  returningWidget = Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(ToursyFontIcons.toursyLogo, color: Colors.grey.withOpacity(0.5), size: 80),
-                        const SizedBox(height: 20),
-                        const Text('You don\'t have\nany favorites yet!', 
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.grey)
-                        )
-                      ],
-                    )
-                  );
+                  returningWidget = noFavoritesYetWidget;
                 }
                 else {
-                  var dataSnapshot = (snapshot.data as DocumentSnapshot).data() as Map<String, dynamic>;
-                  var favoritesList = dataSnapshot['favorites'] as List<dynamic>;
+                  if (snapshot.data != null && (snapshot.data as DocumentSnapshot).data() != null) {
+                    var dataSnapshot = (snapshot.data as DocumentSnapshot).data() as Map<String, dynamic>;
+                    var favoritesList = dataSnapshot['favorites'] as List<dynamic>;
 
-                  if (favoritesList.isNotEmpty) {
-                    var attractionModelList = toursyMainService.getAttractionsFromList(favoritesList, context);
-                    returningWidget = ToursyFavoritesList(attractions: attractionModelList);
+                    if (favoritesList.isNotEmpty) {
+                      var attractionModelList = toursyMainService.getAttractionsFromList(favoritesList, context);
+                      returningWidget = ToursyFavoritesList(attractions: attractionModelList);
+                    }
+                    else {
+                      returningWidget = noFavoritesYetWidget;
+                    }
                   }
                   else {
-                    returningWidget = Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(ToursyFontIcons.toursyLogo, color: Colors.grey.withOpacity(0.5), size: 80),
-                          const SizedBox(height: 20),
-                          const Text('You don\'t have\nany favorites yet!', 
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.grey)
-                          )
-                        ],
-                      )
-                    );
+                    returningWidget = noFavoritesYetWidget;
                   }
                 }
 
