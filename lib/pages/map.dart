@@ -20,10 +20,12 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
 
+  static const double offscreenPillPosition = -300;
+  static const double onscreenPillPosition = 100;
   GoogleMapController? mapController;
   LatLng _center = const LatLng(18.8724059,-69.913995);
   Set<Marker>? _markers = <Marker>{};
-  double attractionPillPosition = -200;
+  double attractionPillPosition = offscreenPillPosition;
   AttractionModel? currentAttraction;
   List<AttractionModel>? attractionList;
   BitmapDescriptor? defaultMarker;
@@ -71,7 +73,7 @@ class _MapPageState extends State<MapPage> {
     var localMarkers = <Marker>{};
 
     if (viewOnMap != null) {
-      attractionPillPosition = 100;
+      attractionPillPosition = onscreenPillPosition;
 
       _center = LatLng(viewOnMap!.location!.lat!, viewOnMap!.location!.lng!);
       localMarkers.add(
@@ -92,7 +94,7 @@ class _MapPageState extends State<MapPage> {
               if (mounted && viewOnMap == null) {
                 setState(() {
                   currentAttraction = attraction;
-                  attractionPillPosition = 100;
+                  attractionPillPosition = onscreenPillPosition;
                   _markers!.clear();
 
                   generateMarkers();
@@ -135,7 +137,7 @@ class _MapPageState extends State<MapPage> {
             onTap: (LatLng location) {
               if (mounted) {
                 setState(() {
-                  attractionPillPosition = -200;
+                  attractionPillPosition = offscreenPillPosition;
                   currentAttraction = AttractionModel(
                     img: currentAttraction!.img!,
                     id: '',
