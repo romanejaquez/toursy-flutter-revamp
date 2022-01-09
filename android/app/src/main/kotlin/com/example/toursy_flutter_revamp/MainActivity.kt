@@ -1,4 +1,4 @@
-package com.example.toursy_flutter_revamp
+package com.drcoderz.toursy
 
 import io.flutter.embedding.android.FlutterActivity
 

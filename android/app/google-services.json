@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "369199371889-rv06eolpd7t53mvfv61scc1j784r70cf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.drcoderz.toursy",
+            "certificate_hash": "4f538a436544b78115017a02da78f08b1f02521c"
+          }
+        },
+        {
           "client_id": "369199371889-4pbbcbvr4n5mprad15d6t6t2k83q552v.apps.googleusercontent.com",
           "client_type": 3
         }

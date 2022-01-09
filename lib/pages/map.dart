@@ -44,6 +44,7 @@ class _MapPageState extends State<MapPage> {
     attractionSelectionService = Provider.of<AttractionSelectionService>(context, listen: false);
     viewOnMap = attractionSelectionService!.viewAttractionOnMap;
 
+    
     if (viewOnMap != null) {
       currentAttraction = viewOnMap;
     }
@@ -60,12 +61,15 @@ class _MapPageState extends State<MapPage> {
         province: defaultAttraction!.province!,
       );
     }
+  }
 
-    BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, './assets/imgs/toursy_pin.png').then((value) {
-      defaultMarker = value;
+  void setMarkerIcons(BuildContext context) async {
+    Utils.getBytesFromAsset('./assets/imgs/toursy_pin${Utils.deviceSuffix(context)}.bmp', 80).then((value) {
+      defaultMarker = BitmapDescriptor.fromBytes(value);
     });
-    BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, './assets/imgs/toursy_pin_selected.png').then((value) {
-      selectedMarker = value;
+
+    Utils.getBytesFromAsset('./assets/imgs/toursy_pin_selected${Utils.deviceSuffix(context)}.bmp', 80).then((value) {
+      selectedMarker = BitmapDescriptor.fromBytes(value);
     });
   }
 
@@ -118,6 +122,8 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     loadingPositionOn = MediaQuery.of(context).size.height / 2;
     loadingPositionOff = MediaQuery.of(context).size.height + 200;
+
+    setMarkerIcons(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,

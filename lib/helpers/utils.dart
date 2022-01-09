@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:toursy_flutter_revamp/helpers/toursyfont.dart';
 import 'package:toursy_flutter_revamp/models/activitydata.model.dart';
 import 'package:toursy_flutter_revamp/models/attraction.model.dart';
@@ -105,5 +108,30 @@ class Utils {
         });
       }
     }
+  }
+
+  static String deviceSuffix(BuildContext context) {
+    String deviceSuffix = '';
+    TargetPlatform platform = Theme.of(context).platform;
+    switch(platform) {
+      case TargetPlatform.android:
+        deviceSuffix = '_android';
+        break;
+      case TargetPlatform.iOS:
+        deviceSuffix = '_ios';
+        break;
+      default: 
+        deviceSuffix = '';
+        break;
+    }
+
+    return deviceSuffix;
+  }
+
+  static Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
 }
