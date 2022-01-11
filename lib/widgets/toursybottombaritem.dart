@@ -14,8 +14,8 @@ class ToursyBottomBarItem extends StatelessWidget {
     return GestureDetector(
       onTap: () { onTap!(); },
       child: SizedBox(
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 90,
         child: Stack(
           children: [
             Positioned(
@@ -25,7 +25,7 @@ class ToursyBottomBarItem extends StatelessWidget {
                 opacity: bottomBarItem!.isSelected! ? 0 : 1,
                 child: Container(
                   padding: const EdgeInsets.all(30),
-                  margin: const EdgeInsets.only(bottom: 20),
+                  margin: const EdgeInsets.only(top: 20, bottom: 20),
                   child: Icon(
                     bottomBarItem!.icon,
                     size: bottomBarItem!.size,
@@ -36,10 +36,10 @@ class ToursyBottomBarItem extends StatelessWidget {
             AnimatedPositioned(
               duration: const Duration(milliseconds: 250),
               curve: Curves.easeInOut,
-              bottom: bottomBarItem!.isSelected! ? 0 : -100,
+              bottom: bottomBarItem!.isSelected! ? 0 : -80,
               child: Container(
                 padding: const EdgeInsets.all(30),
-                margin: const EdgeInsets.only(bottom: 20),
+                margin: const EdgeInsets.only(top: 20, bottom: 20),
                 child: Icon(
                   bottomBarItem!.icon,
                   size: bottomBarItem!.size,

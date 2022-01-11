@@ -23,7 +23,7 @@ class Utils {
         route: '/',
         showIfLoggedIn: true,
         showNormal: true,
-        size: 40
+        size: 35
       ),
       BottomBarItem(
         id: 'byregion',
@@ -32,7 +32,7 @@ class Utils {
         route: '/byregion',
         showIfLoggedIn: true,
         showNormal: true,
-        size: 40
+        size: 35
       ),
       BottomBarItem(
         id: 'byactivity',
@@ -41,7 +41,7 @@ class Utils {
         route: '/byactivity',
         showIfLoggedIn: true,
         showNormal: true,
-        size: 40
+        size: 35
       ),
       BottomBarItem(
         id: 'favorites',
@@ -50,7 +50,7 @@ class Utils {
         route: '/favorites',
         showIfLoggedIn: true,
         showNormal: false,
-        size: 30
+        size: 35
       )
     ];
   }

@@ -31,7 +31,7 @@ class _AttractionsAnimatedListState extends State<AttractionsAnimatedList> {
   Widget build(BuildContext context) {
     return AnimatedList(
       key: _key,
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       initialItemCount: actualList.length,
       itemBuilder: (context, index, animation) {
         AttractionCardModel attractionCard = widget.attractions![index];

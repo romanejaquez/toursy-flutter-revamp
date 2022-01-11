@@ -30,7 +30,7 @@ class ToursyBottomBar extends StatelessWidget {
             ]
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: List.generate(bottomBarItems.length,
             (index) {
               var bottomBarItem = bottomBarItems[index];

@@ -55,7 +55,7 @@ class AttractionsPage extends StatelessWidget {
 
           return Container(
             color: Colors.white,
-            margin: const EdgeInsets.only(bottom: 40),
+            //margin: const EdgeInsets.only(bottom: 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [

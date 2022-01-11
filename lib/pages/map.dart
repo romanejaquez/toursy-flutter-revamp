@@ -64,11 +64,11 @@ class _MapPageState extends State<MapPage> {
   }
 
   void setMarkerIcons(BuildContext context) async {
-    Utils.getBytesFromAsset('./assets/imgs/toursy_pin${Utils.deviceSuffix(context)}.bmp', 80).then((value) {
+    Utils.getBytesFromAsset('./assets/imgs/toursy_pin${Utils.deviceSuffix(context)}.bmp', 70).then((value) {
       defaultMarker = BitmapDescriptor.fromBytes(value);
     });
 
-    Utils.getBytesFromAsset('./assets/imgs/toursy_pin_selected${Utils.deviceSuffix(context)}.bmp', 80).then((value) {
+    Utils.getBytesFromAsset('./assets/imgs/toursy_pin_selected${Utils.deviceSuffix(context)}.bmp', 70).then((value) {
       selectedMarker = BitmapDescriptor.fromBytes(value);
     });
   }
