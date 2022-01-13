@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "369199371889-rv06eolpd7t53mvfv61scc1j784r70cf.apps.googleusercontent.com",
+          "client_id": "369199371889-dk10te4tv9itv4oqnfu0atotve5j0don.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.drcoderz.toursy",
+            "certificate_hash": "48fca7bd23f4743b32a2584ce3b486bae5bf8c3f"
+          }
+        },
+        {
+          "client_id": "369199371889-tuqddpal1ks4qhonttcc0q71bguvk6tp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.drcoderz.toursy",
