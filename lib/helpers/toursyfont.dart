@@ -13,4 +13,7 @@ class ToursyFontIcons {
   static const IconData toursyMap = IconData(0xe004, fontFamily: _toursyFont);
   static const IconData toursyWalk = IconData(0xe005, fontFamily: _toursyFont);
   static const IconData toursyPaperMap = IconData(0xe006, fontFamily: _toursyFont);
+  static const IconData android = IconData(0xe007, fontFamily: _toursyFont);
+  static const IconData apple = IconData(0xe008, fontFamily: _toursyFont);
+  static const IconData gmail = IconData(0xe009, fontFamily: _toursyFont);
 }

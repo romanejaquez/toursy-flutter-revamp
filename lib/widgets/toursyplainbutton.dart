@@ -4,8 +4,9 @@ import 'package:toursy_flutter_revamp/helpers/toursycolors.dart';
 class ToursyPlainButton extends StatelessWidget {
   Function? onTap;
   String? label;
+  IconData? icon;
   
-  ToursyPlainButton({Key? key, this.onTap, this.label }) : super(key: key);
+  ToursyPlainButton({Key? key, this.onTap, this.label, this.icon }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +22,24 @@ class ToursyPlainButton extends StatelessWidget {
           splashColor: ToursyColors.primaryGreen.withOpacity(0.1),
           highlightColor: ToursyColors.secondaryGreen.withOpacity(0.1),
           child: Container(
-            padding: const EdgeInsets.all(20),
-            child: Text(label!,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 20,
-                color: ToursyColors.primaryGreen)
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 5),
+                  child: Icon(icon!, size: 35, color: ToursyColors.primaryGreen),
+                ),
+                Text(label!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: ToursyColors.primaryGreen)
+                )
+              ],
             ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30)
               ),

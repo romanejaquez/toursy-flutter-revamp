@@ -31,40 +31,68 @@ class SideMenu extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SideMenuItem(
-                          onTap: () async {
+                        Visibility(
+                          visible: loginService.isUserLoggedIn(),
+                          child: SideMenuItem(
+                            onTap: () {
                               if (loginService.isUserLoggedIn()) {
-                                Utils.mainAppNav.currentState!.pop();
-                                
-                                showDialog(
-                                  barrierDismissible: true,
-                                  context: context,
-                                  builder: (context) {
-                                    return ToursyAlert(
-                                      title: 'Signing Out',
-                                      message: 'Are you sure you want to sign out?',
-                                      onYes: () {
-                                        loginService.signOut(() {
-                                          ToursyBottomBarSelection bottomBarSelection = Provider.of<ToursyBottomBarSelection>(context, listen: false);
-                                          bottomBarSelection.resetSelection();
-                                          Utils.mainAppNav.currentState!.popUntil((route) => route.settings.name == '/welcome');
-                                        });
-                                      },
-                                      onNo: () {
-                                        Utils.mainAppNav.currentState!.pop(); 
-                                      },
-                                    );
-                                  }
-                                );
-                              }
-                              else {
-                                var isLoggedIn = await loginService.signInWithGoogle();
-                                if (isLoggedIn) {
                                   Utils.mainAppNav.currentState!.pop();
+                                  
+                                  showDialog(
+                                    barrierDismissible: true,
+                                    context: context,
+                                    builder: (context) {
+                                      return ToursyAlert(
+                                        title: 'Signing Out',
+                                        message: 'Are you sure you want to sign out?',
+                                        onYes: () {
+                                          loginService.signOut(() {
+                                            ToursyBottomBarSelection bottomBarSelection = Provider.of<ToursyBottomBarSelection>(context, listen: false);
+                                            bottomBarSelection.resetSelection();
+                                            Utils.mainAppNav.currentState!.popUntil((route) => route.settings.name == '/welcome');
+                                          });
+                                        },
+                                        onNo: () {
+                                          Utils.mainAppNav.currentState!.pop(); 
+                                        },
+                                      );
+                                    }
+                                  );
                                 }
-                              }
-                            },
-                          label: loginService.isUserLoggedIn() ? 'Sign Out' : 'Sign In with Google',
+                              },
+                              label: 'Sign Out',
+                            ),
+                        ),
+                        Visibility(
+                          visible: !loginService.isUserLoggedIn(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              SideMenuItem(
+                                onTap: () async {
+                                    var isLoggedIn = await loginService.signInWithGoogle();
+                                      if (isLoggedIn) {
+                                        Utils.mainAppNav.currentState!.pop();
+                                      }
+                                  },
+                                label: 'Sign In with Google',
+                              ),
+                              const SizedBox(height: 10),
+                              Visibility(
+                                visible: Utils.deviceSuffix(context) == '_ios',
+                                child: SideMenuItem(
+                                  onTap: () async {
+                                      var isLoggedIn = await loginService.signInWithApple();
+                                        if (isLoggedIn) {
+                                          Utils.mainAppNav.currentState!.pop();
+                                        }
+                                    },
+                                  label: 'Sign In with Apple',
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Visibility(
@@ -76,7 +104,7 @@ class SideMenu extends StatelessWidget {
                             },
                               label: 'My Profile',
                             ),
-                          )
+                        )
                       ]
                     );
                   },

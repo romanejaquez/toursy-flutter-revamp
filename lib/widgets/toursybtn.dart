@@ -70,7 +70,7 @@ class _ToursyButtonState extends State<ToursyButton> {
                 padding: const EdgeInsets.all(20),
                 child: Text(widget.label!,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 20, color: Colors.white),
+                  style: const TextStyle(fontSize: 18, color: Colors.white),
                 )
               ),
             ),

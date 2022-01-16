@@ -21,8 +21,12 @@ class UserBadge extends StatelessWidget {
               scale: 0.8,
               child: ClipOval(
                 child: SizedBox(
-                  child: Image.network(
+                  child: loginService.loggedInUserModel!.photoUrl!.isNotEmpty ? Image.network(
                     loginService.loggedInUserModel!.photoUrl!,
+                    width: 55,
+                    height: 45,
+                    fit: BoxFit.cover
+                  ) : Image.asset('./assets/imgs/toursy_emptyprofile.png',
                     width: 55,
                     height: 45,
                     fit: BoxFit.cover

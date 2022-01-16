@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'package:toursy_flutter_revamp/models/attractioncard.model.dart';
 import 'package:toursy_flutter_revamp/models/attractioncategoryselection.model.dart';
 import 'package:toursy_flutter_revamp/models/bottombaritem.dart';
 import 'package:toursy_flutter_revamp/models/regionaldata.model.dart';
+import 'package:crypto/crypto.dart';
 
 class Utils {
   static GlobalKey<NavigatorState> mainPageNav = GlobalKey();
@@ -133,5 +136,19 @@ class Utils {
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+  }
+
+  static String generateNonce([int length = 32]) {
+    final charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
+  static String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
   }
 }

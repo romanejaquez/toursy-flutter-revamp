@@ -131,8 +131,12 @@ class _UserProfilePageState extends State<UserProfilePage> with TickerProviderSt
                         child: SizedBox(
                           width: 80,
                           height: 80,
-                          child: Image.network(
+                          child: userModel.photoUrl!.isNotEmpty ? Image.network(
                             userModel.photoUrl!,
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover
+                          ) : Image.asset('./assets/imgs/toursy_emptyprofile.png',
                             width: 80,
                             height: 80,
                             fit: BoxFit.cover

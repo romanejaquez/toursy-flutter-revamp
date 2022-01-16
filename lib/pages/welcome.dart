@@ -196,9 +196,31 @@ class _WelcomePageState extends State<WelcomePage> with TickerProviderStateMixin
                     Utils.mainAppNav.currentState!.pushNamed('/main');
                   }
                 },
+                icon: ToursyFontIcons.gmail,
                 label: 'Sign In With Google'
               ),
               const SizedBox(height: 20),
+
+              Visibility(
+                visible: Utils.deviceSuffix(context) == '_ios',
+                child: Column(
+                  children: [
+                    ToursyPlainButton(
+                      onTap: () async {
+                        LoginService loginService = Provider.of<LoginService>(context, listen: false);
+
+                        var isLoggedIn = await loginService.signInWithApple();
+                        if (isLoggedIn) {
+                          Utils.mainAppNav.currentState!.pushNamed('/main');
+                        }
+                      },
+                      icon: ToursyFontIcons.apple,
+                      label: 'Sign In With Apple'
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
 
               ToursyButton(
                 label: 'Go To Main Page',
